@@ -8,7 +8,7 @@ Saranya Soundar Rajan
 Sheethal Halandur Nagaraja  
 Shreya Shah
 
-Agile Scrum Kanban Board
+## Agile Scrum Kanban Board
 
 [Task Board](https://github.com/nguyensjsu/fa18-281-code-warriors/projects/1)
 
