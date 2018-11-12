@@ -14,7 +14,7 @@
 2. Study about the Microservices and SASS Applications.
 3. Research on which technologies to be used and which database is suitable for that particular applications.
 
-Challenges:
+#### Challenges:
 
 1. Finalising on the application to be cloned for this project encorporating all the requirements.
 2. Database to be considered prioritizing the CP/AP requirements of the project.
