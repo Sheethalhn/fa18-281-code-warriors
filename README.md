@@ -8,13 +8,7 @@ Saranya Soundar Rajan
 Sheethal Halandur Nagaraja  
 Shreya Shah
 
+Agile Scrum Kanban Board
 
-### PROJECT JOURNAL
+[Task Board](https://github.com/nguyensjsu/fa18-281-code-warriors/projects/1)
 
-## WEEK 1 (11/3/2018 - 11/10/2018)
-
-What did the team do the past week? Had a team meeting to discuss about topic for the project. 
-
-What is the team going to do next week? The team has decided to come up with problem statement and modules for the application. 
-
-What are the current blockers/challenges the team is facing? Team is not facing any issues.
