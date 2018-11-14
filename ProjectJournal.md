@@ -31,20 +31,17 @@
 #### Meeting Results:
 
 1. Listed the following APIs to start with:
-	1. sign up
-	2. login
-	3. fetch user profile 
-	4. fetch book catalogue (list)
-	5. add books to catalogue
-	6. update catalogue
-	7. add/remove books from shopping cart
-	8. fetch books from shopping cart
+	1 user logins/signup/logout
+	2 user  profile and transaction history
+	3 book catalogue display
+	4 adiing to cart nd managing it
+	5 payment
 2. Finshing the development part by this weekend or early next week to focus more on architecture.
 3. Finalised Mongodb as of now to leverage it's CP property.
 
 #### Challenges:
 
 1. Riak is selected as AP database but yet to explore it further.
-2. developing minimal feasible forntend to demonstrate all the features initially.
+2. developing minimal feasible frontend to demonstrate all the features initially.
 
 
