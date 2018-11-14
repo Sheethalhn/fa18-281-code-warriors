@@ -32,7 +32,7 @@
 
 1. Listed the following APIs to start with:
 
-	i. user logins/signup/logout
+	1. user logins/signup/logout
 	2. user  profile and transaction history
 	3. book catalogue display
 	4. adding to cart and managing it
