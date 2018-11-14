@@ -18,3 +18,7 @@
 
 1. Finalising on the application to be cloned for this project encorporating all the requirements.
 2. Database to be considered prioritizing the CP/AP requirements of the project.
+
+## Week 2 (11th November - 17th November)
+
+#### Meeting Date: 12th November
