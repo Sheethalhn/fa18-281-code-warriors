@@ -22,3 +22,29 @@
 ## Week 2 (11th November - 17th November)
 
 #### Meeting Date: 12th November
+
+#### Discussion Points:
+1. We decided to go ahead with Bookstore as our project.
+2. Discussed and finalized the databases for demonstrating CP/AP properties.
+3. Basic functionalities for the bookstore to develop the APIs
+
+#### Meeting Results:
+
+1. Listed the following APIs to start with:
+	1. sign up
+	2. login
+	3. fetch user profile 
+	4. fetch book catalogue (list)
+	5. add books to catalogue
+	6. update catalogue
+	7. add/remove books from shopping cart
+	8. fetch books from shopping cart
+2. Finshing the development part by this weekend or early next week to focus more on architecture.
+3. Finalised Mongodb as of now to leverage it's CP property.
+
+#### Challenges:
+
+1. Riak is selected as AP database but yet to explore it further.
+2. developing minimal feasible forntend to demonstrate all the features initially.
+
+
