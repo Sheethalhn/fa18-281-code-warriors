@@ -32,11 +32,11 @@
 
 1. Listed the following APIs to start with:
 
-	1. user logins/signup/logout
-	2. user  profile and transaction history
-	3. book catalogue display
-	4. adding to cart and managing it
-	5. payment
+	i. user logins/signup/logout
+	ii. user  profile and transaction history
+	iii. book catalogue display
+	iv. adding to cart and managing it
+	v. payment
 2. Finshing the development part by this weekend or early next week to focus more on architecture.
 3. Finalised Mongodb as of now to leverage it's CP property.
 
