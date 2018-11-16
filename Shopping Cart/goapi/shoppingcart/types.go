@@ -12,9 +12,10 @@ type Cart struct {
 	Books []struct {
 		BookId     string  `json:"bookId"`
 		BookName   string  `json:"bookName"`
-		BookCount  int     `json:"bookCount"`
 		BookDescription string `json:"bookDescription"`
+		BookCount  int     `json:"bookCount"`
 		BookPrice float64 `json:"price"`
+		OrderStatus string `json:"orderstatus"`
 		Amount float64 `json:"amount"`
 	} `json:"books"`
 
