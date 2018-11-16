@@ -12,6 +12,7 @@ Shreya Shah
 ## Agile core values
 
 Sheethal - Simplicity
+
 Saranya - Communication
 
 
