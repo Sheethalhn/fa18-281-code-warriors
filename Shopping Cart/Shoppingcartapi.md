@@ -35,16 +35,16 @@
 
         User can select and add books to the Shopping Cart
         
-        Route:   /addbook_cart
+        Route:   /addbook_cart/<userid>
         Method : POST
         Content-Type: application/json
-        Request Params:
+        Request Body:
         {
-            userid: Number,
             bookid : Number,
             bookname : String,
             bookdescription : String,
-            price : Double
+            price : Double,
+            count : Number
         }
 
         Response:
@@ -59,13 +59,12 @@
 
         User can remove books from Shopping Cart
         
-        Route:   /removebook_fromcart?bookid=<bookid>
+        Route:   /removebook_fromcart/<cartid>
         Method : DELETE
         Content-Type: application/json
         Request Params:
         {
-            userid: Number,
-            bookid: Number
+            cartid: Number,
         }
 
         Response:
