@@ -1,4 +1,5 @@
-# CMPE 281 Team Project
+# CMPE 281 Team Project - Code Warriors
+
 
 ## Team Members
 
@@ -7,6 +8,12 @@ Harsh Patel Aka Chaudhari
 Saranya Soundar Rajan  
 Sheethal Halandur Nagaraja  
 Shreya Shah
+
+## Agile core values
+
+Sheethal -Simplicity
+
+
 
 ## Agile Scrum Kanban Board
 
