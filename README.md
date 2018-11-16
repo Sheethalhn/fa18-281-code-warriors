@@ -11,8 +11,8 @@ Shreya Shah
 
 ## Agile core values
 
-Sheethal -Simplicity
-
+Sheethal - Simplicity
+Saranya - Communication
 
 
 ## Agile Scrum Kanban Board
