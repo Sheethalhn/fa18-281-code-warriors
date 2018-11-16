@@ -1,7 +1,6 @@
 /*
-	Gumball API in Go (Version 3)
-	Uses MongoDB and RabbitMQ
-	(For use with Kong API Key)
+	Shopping Cart API in Go (Version 3)
+	Uses MongoDB
 */
 
 package main
@@ -22,7 +21,7 @@ import (
 
 // MongoDB Config
 var mongodb_server = "localhost"
-var mongodb_database = "Booksmart"
+var mongodb_database = "Bookstore"
 var mongodb_collection = "shoppingcart"
 
 // NewServer configures and returns a Server.
@@ -128,7 +127,7 @@ func calculateAmount(count int, rate float64) float64 {
 
 
 // API Remove Cart Handler
-func removeCartHandler(formatter *render.Render) http.HandlerFunc {
+func shoppingCartRemoveBookHandler(formatter *render.Render) http.HandlerFunc {
   return func(w http.ResponseWriter, req *http.Request) {
     var uuid string = params["cartid"]
 		session, err := mgo.Dial(mongodb_server)
