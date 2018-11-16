@@ -15,6 +15,8 @@ Sheethal - Simplicity
 
 Saranya - Communication
 
+Shreya - Eliminate Waste
+
 
 ## Agile Scrum Kanban Board
 
