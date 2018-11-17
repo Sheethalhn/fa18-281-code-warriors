@@ -39,9 +39,9 @@ func NewServer() *negroni.Negroni {
 // API Routes
 func initRoutes(mx *mux.Router, formatter *render.Render) {
 	mx.HandleFunc("/ping", pingHandler(formatter)).Methods("GET")
-	mx.HandleFunc("/get_shoppingcart/{userid}", shoppingCartHandler(formatter)).Methods("GET")
-	mx.HandleFunc("/addbook_cart/{userid}", shoppingCartAddBookHandler(formatter)).Methods("POST")
-	mx.HandleFunc("/removebook_cart/{cartid}", shoppingCartRemoveBookHandler(formatter)).Methods("DELETE")
+	mx.HandleFunc("/get_shoppingcart/{userid}/{cartid}", shoppingCartHandler(formatter)).Methods("GET")
+	mx.HandleFunc("/addbook_cart/{userid}/{cartid}", shoppingCartAddBookHandler(formatter)).Methods("POST")
+	mx.HandleFunc("/removebook_cart/{cartid}/{bookid}", shoppingCartRemoveBookHandler(formatter)).Methods("DELETE")
 }
 
 // API Ping Handler
