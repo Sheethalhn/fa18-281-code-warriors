@@ -6,7 +6,6 @@
 package main
 
 type Cart struct {
-	CartId string `json:"id"`
 	UserId string `json:"userId"`
 
 	Books []struct {
@@ -18,8 +17,7 @@ type Cart struct {
 		Amount float64 `json:"amount"`
 	} `json:"books"`
 	
-	OrderStatus string `json:"orderstatus"`
-	Total float64 `json:"total"`
+	TotalAmount float64 `json:"total"`
 }
 
 var orders map[string] Cart

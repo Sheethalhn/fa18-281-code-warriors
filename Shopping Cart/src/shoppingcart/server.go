@@ -14,7 +14,6 @@ import (
 	"github.com/codegangsta/negroni"
 	"github.com/gorilla/mux"
 	"github.com/unrolled/render"
-	"github.com/satori/go.uuid"
 	"gopkg.in/mgo.v2"
     "gopkg.in/mgo.v2/bson"
 )
@@ -39,9 +38,9 @@ func NewServer() *negroni.Negroni {
 // API Routes
 func initRoutes(mx *mux.Router, formatter *render.Render) {
 	mx.HandleFunc("/ping", pingHandler(formatter)).Methods("GET")
-	mx.HandleFunc("/get_shoppingcart/{userid}/{cartid}", shoppingCartHandler(formatter)).Methods("GET")
-	mx.HandleFunc("/addbook_cart/{userid}/{cartid}", shoppingCartAddBookHandler(formatter)).Methods("POST")
-	mx.HandleFunc("/removebook_cart/{cartid}/{bookid}", shoppingCartRemoveBookHandler(formatter)).Methods("DELETE")
+	mx.HandleFunc("/get_shoppingcart/{userid}", shoppingCartHandler(formatter)).Methods("GET")
+	mx.HandleFunc("/addbook_cart/{userid}", shoppingCartAddBookHandler(formatter)).Methods("POST")
+	mx.HandleFunc("/removebook_cart", shoppingCartRemoveBookHandler(formatter)).Methods("DELETE")
 }
 
 // API Ping Handler
@@ -56,6 +55,8 @@ func shoppingCartHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
 		params := mux.Vars(req)
 		var userid string = params["userid"]
+		fmt.Println("userid", userid )
+
 		session, err := mgo.Dial(mongodb_server)
         if err != nil {
                 panic(err)
@@ -64,7 +65,7 @@ func shoppingCartHandler(formatter *render.Render) http.HandlerFunc {
         session.SetMode(mgo.Monotonic, true)
         c := session.DB(mongodb_database).C(mongodb_collection)
         var result bson.M
-        err = c.Find( bson.M{"$and": []bson.M {bson.M {"UserId" : userid}, bson.M{"OrderStatus": "Order Placed"} } } ).All(&result)
+        err = c.Find( bson.M {"userid" : userid}).One(&result)
         if err != nil {
                 log.Fatal(err)
         }
@@ -73,22 +74,19 @@ func shoppingCartHandler(formatter *render.Render) http.HandlerFunc {
 	}
 }
 
+
+// curl localhost:5000/addbook_cart/1 
 // API Add Book to Shopping Cart
 func shoppingCartAddBookHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
 		params := mux.Vars(req)
 		var userid string = params["userid"]
 		var newCart Cart
-		uuid, _ := uuid.NewV4()
 		decoder := json.NewDecoder(req.Body)
 		err := decoder.Decode(&newCart)
-
-		newCart.CartId = uuid.String()
 		newCart.UserId = userid
-		newCart.OrderStatus = "Order Placed"
-
 		cartItems := newCart.Books
-
+		fmt.Println("newCart", newCart )
 		var totalAmount float64
 
 		for i := 0; i < len(cartItems); i++ {
@@ -97,8 +95,7 @@ func shoppingCartAddBookHandler(formatter *render.Render) http.HandlerFunc {
 		}
 
 		totalAmount = math.Ceil(totalAmount*100) / 100
-		newCart.Total = totalAmount
-
+		newCart.TotalAmount = totalAmount
 		reqbody, _ := json.Marshal(newCart)
 
 		session, err := mgo.Dial(mongodb_server)
@@ -108,16 +105,33 @@ func shoppingCartAddBookHandler(formatter *render.Render) http.HandlerFunc {
 		defer session.Close()
 		session.SetMode(mgo.Monotonic, true)
 		c := session.DB(mongodb_database).C(mongodb_collection)
-		if orders == nil {
-			orders = make(map[string]Cart)
+
+		var result bson.M
+		err = c.Find( bson.M {"userid" : userid}).One(&result)
+		rawjson, err := json.Marshal(result)
+		var books string = string(rawjson) 
+        if books != "null" {
+			fmt.Println("Shopping Cart Details:", books)
+			if err == nil {
+				var totalAmount1 float64
+				for key, value := range result {
+					if key == "totalamount" {
+					// fmt.Fprintf(w, "Type = %v", value) // <--- Type = float64
+					var value1 float64 = float64(value.(float64))
+					totalAmount1 = newCart.TotalAmount + value1
+					fmt.Println(totalAmount1) // <--- Type = float64
+					}
+				}
+				c.Update(bson.M{"userid": userid}, bson.M{"$push": bson.M{"books": cartItems[0]}, "$set": bson.M{ "totalamount" : totalAmount1}})	
+			}		
+		} else {
+			err = c.Insert(newCart)
+			if err != nil {
+				formatter.JSON(w, http.StatusOK, reqbody)
+			} 
 		}
-		orders[uuid.String()] = newCart
-		err = c.Insert(reqbody)
-		if err != nil {
-			formatter.JSON(w, http.StatusOK, reqbody)
 	  }
 	}
-}
 
 // Calculate amount
 func calculateAmount(count int, rate float64) float64 {
