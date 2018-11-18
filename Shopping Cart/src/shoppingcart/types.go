@@ -10,14 +10,11 @@ type Cart struct {
 
 	Books []struct {
 		BookId     string  `json:"bookId"`
-		BookName   string  `json:"bookName"`
-		BookDescription string `json:"bookDescription"`
 		BookCount  int     `json:"bookCount"`
-		BookPrice float64 `json:"price"`
-		Amount float64 `json:"amount"`
 	} `json:"books"`
-	
-	TotalAmount float64 `json:"total"`
 }
 
-var orders map[string] Cart
+type Books[] struct {
+	BookId     string  
+	BookCount  int    
+}

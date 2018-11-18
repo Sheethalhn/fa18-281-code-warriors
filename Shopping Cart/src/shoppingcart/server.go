@@ -7,7 +7,6 @@ package main
 
 import (
 	"fmt"
-	"math"
 	"log"
 	"net/http"
 	"encoding/json"
@@ -38,9 +37,10 @@ func NewServer() *negroni.Negroni {
 // API Routes
 func initRoutes(mx *mux.Router, formatter *render.Render) {
 	mx.HandleFunc("/ping", pingHandler(formatter)).Methods("GET")
-	mx.HandleFunc("/get_shoppingcart/{userid}", shoppingCartHandler(formatter)).Methods("GET")
-	mx.HandleFunc("/addbook_cart/{userid}", shoppingCartAddBookHandler(formatter)).Methods("POST")
-	mx.HandleFunc("/removebook_cart", shoppingCartRemoveBookHandler(formatter)).Methods("DELETE")
+	mx.HandleFunc("/viewcart/{userid}", shoppingCartHandler(formatter)).Methods("GET")
+	mx.HandleFunc("/addcart/{userid}", shoppingCartAddHandler(formatter)).Methods("POST")
+	mx.HandleFunc("/updatecart/{userid}", shoppingCartUpdateHandler(formatter)).Methods("POST")
+	mx.HandleFunc("/clearcart/{userid}", shoppingCartRemoveHandler(formatter)).Methods("POST")
 }
 
 // API Ping Handler
@@ -65,19 +65,50 @@ func shoppingCartHandler(formatter *render.Render) http.HandlerFunc {
         session.SetMode(mgo.Monotonic, true)
         c := session.DB(mongodb_database).C(mongodb_collection)
         var result bson.M
-        err = c.Find( bson.M {"userid" : userid}).One(&result)
-        if err != nil {
-                log.Fatal(err)
-        }
-        fmt.Println("Shopping Cart Details:", result )
-		formatter.JSON(w, http.StatusOK, result)
+		err = c.Find( bson.M {"userid" : userid}).One(&result)
+		rawjson, err := json.Marshal(result)
+		var cart string = string(rawjson) 
+		if err == nil {
+			if cart != "null" {
+				fmt.Println("Shopping Cart Details:", result )
+				formatter.JSON(w, http.StatusOK, result)
+			} else {
+				fmt.Println("Shopping Cart Details:", result )
+				formatter.JSON(w, http.StatusOK, "Cart Empty")
+			}
+		} else {
+			log.Fatal(err)
+		}
 	}
 }
 
+// API Add Shopping Cart
+func shoppingCartAddHandler(formatter *render.Render) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		params := mux.Vars(req)
+		var userid string = params["userid"]
+		fmt.Println("userid", userid )
 
-// curl localhost:5000/addbook_cart/1 
-// API Add Book to Shopping Cart
-func shoppingCartAddBookHandler(formatter *render.Render) http.HandlerFunc {
+		session, err := mgo.Dial(mongodb_server)
+		if err != nil {
+			panic(err)
+		}
+		defer session.Close()
+		session.SetMode(mgo.Monotonic, true)
+		c := session.DB(mongodb_database).C(mongodb_collection)
+
+		var newCart Cart
+		newCart.UserId = userid
+		err = c.Insert(newCart)
+
+		if err == nil {
+			formatter.JSON(w, http.StatusOK, newCart)
+		} 
+	}
+}
+
+// API Update Shopping Cart
+func shoppingCartUpdateHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
 		params := mux.Vars(req)
 		var userid string = params["userid"]
@@ -85,18 +116,6 @@ func shoppingCartAddBookHandler(formatter *render.Render) http.HandlerFunc {
 		decoder := json.NewDecoder(req.Body)
 		err := decoder.Decode(&newCart)
 		newCart.UserId = userid
-		cartItems := newCart.Books
-		fmt.Println("newCart", newCart )
-		var totalAmount float64
-
-		for i := 0; i < len(cartItems); i++ {
-			cartItems[i].Amount = calculateAmount(cartItems[i].BookCount, cartItems[i].BookPrice)
-			totalAmount += cartItems[i].Amount
-		}
-
-		totalAmount = math.Ceil(totalAmount*100) / 100
-		newCart.TotalAmount = totalAmount
-		reqbody, _ := json.Marshal(newCart)
 
 		session, err := mgo.Dial(mongodb_server)
 		if err != nil {
@@ -105,47 +124,21 @@ func shoppingCartAddBookHandler(formatter *render.Render) http.HandlerFunc {
 		defer session.Close()
 		session.SetMode(mgo.Monotonic, true)
 		c := session.DB(mongodb_database).C(mongodb_collection)
-
-		var result bson.M
-		err = c.Find( bson.M {"userid" : userid}).One(&result)
-		rawjson, err := json.Marshal(result)
-		var books string = string(rawjson) 
-        if books != "null" {
-			fmt.Println("Shopping Cart Details:", books)
-			if err == nil {
-				var totalAmount1 float64
-				for key, value := range result {
-					if key == "totalamount" {
-					// fmt.Fprintf(w, "Type = %v", value) // <--- Type = float64
-					var value1 float64 = float64(value.(float64))
-					totalAmount1 = newCart.TotalAmount + value1
-					fmt.Println(totalAmount1) // <--- Type = float64
-					}
-				}
-				c.Update(bson.M{"userid": userid}, bson.M{"$push": bson.M{"books": cartItems[0]}, "$set": bson.M{ "totalamount" : totalAmount1}})	
-			}		
-		} else {
-			err = c.Insert(newCart)
-			if err != nil {
-				formatter.JSON(w, http.StatusOK, reqbody)
-			} 
-		}
+		query := bson.M{"userid" : userid}
+        change := bson.M{"$set": bson.M{ "books" : newCart.Books}}
+        err = c.Update(query, change)
+        if err != nil {
+                log.Fatal(err)
+        }
 	  }
 	}
-
-// Calculate amount
-func calculateAmount(count int, rate float64) float64 {
-	total := float64(count) * rate
-	total = math.Ceil(total*100) / 100
-	return total
-}
-
 
 // API Remove Cart Handler
-func shoppingCartRemoveBookHandler(formatter *render.Render) http.HandlerFunc {
+func shoppingCartRemoveHandler(formatter *render.Render) http.HandlerFunc {
   return func(w http.ResponseWriter, req *http.Request) {
 	params := mux.Vars(req)
-    var uuid string = params["cartid"]
+	var userid string = params["userid"]
+	var clearBooks Books
 		session, err := mgo.Dial(mongodb_server)
 		if err != nil {
 			panic(err)
@@ -153,9 +146,12 @@ func shoppingCartRemoveBookHandler(formatter *render.Render) http.HandlerFunc {
 		defer session.Close()
 		session.SetMode(mgo.Monotonic, true)
 		c := session.DB(mongodb_database).C(mongodb_collection)
-		err = c.Remove(bson.M{"CartId": uuid})
-		if err != nil {
-			formatter.JSON(w, http.StatusOK, err)
-	  }
+		query := bson.M{"userid" : userid}
+        change := bson.M{"$set": bson.M{ "books" : clearBooks}}
+        err = c.Update(query, change)
+        if err != nil {
+                log.Fatal(err)
+        }
 	}
 }
+
