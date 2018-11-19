@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Route, withRouter } from 'react-router-dom';
 import Welcome from './Welcome';
+import ViewCart from './ViewCart/ViewCart';
 
 class RoutesComponent extends Component{
 
@@ -20,8 +21,7 @@ class RoutesComponent extends Component{
                     </div>
                 )}/>
 
-
-
+                <Route path="/viewshoppingcart" component={ViewCart}/>
             </div>
         );
     }
