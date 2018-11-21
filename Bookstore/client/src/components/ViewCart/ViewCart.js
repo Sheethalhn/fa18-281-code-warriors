@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import axios from 'axios';
 import NumericInput from 'react-numeric-input';
 import '../../App.css';
+import Header from '../Header/Header';
 
 // DUMMY VALUES
 var booktable = [{price : 1.32, bookname: "book1"}, {price:2.45, bookname : "book2"}]
@@ -58,7 +59,7 @@ class ViewCart extends Component{
             totalamount : totalamount,
             rows : JSON.parse(JSON.stringify(books))
         })
-        var userid = 1;
+        //var userid = 1;
         // axios.post(`http://localhost:3001/updatecart/${userid}`, table)
         // .then(response => {
         //     console.log("Status Code : ",response);
@@ -121,7 +122,7 @@ class ViewCart extends Component{
                   <input type = "number" min={1} step ="any" value={updatebooks[i].bookcount} onChange ={(evt) => self.changecount(evt, i)}/>
                   </td>
                   <td className="column-6">
-                  <button onClick ={(evt) => self.deletebook(evt, i)}><img src= "images/delete.png"/></button></td>
+                  <button onClick ={(evt) => self.deletebook(evt, i)}><img alt="alt img" src= "images/delete.png"/></button></td>
               </tr>
                 })
               } else {
@@ -165,55 +166,12 @@ class ViewCart extends Component{
     render(){
         return(
          <div>
-            <header className="header1">
-                <div className="container-menu-header">
-                    <div className="topbar">
-                        <div className="topbar-social">
-                           
-                        </div>
-
-                        <span className="topbar-child1">
-                        </span>
-
-                        <div className="topbar-child2">
-                            <span className="topbar-email">
-                            </span>
-
-                            <div className="topbar-language rs1-select2">
-
-                            </div>
-                        </div>
-                    </div>
-
-                    <div className="wrap_header">
-
-
-                        <div className="wrap_menu">
-                            <nav className="menu">
-                                
-                            </nav>
-                        </div>
-
-                        <div className="header-icons">
-
-                            <div className="header-wrapicon2">
-                                <a href = "/viewcart"><img src="images/icons/icon-header-02.png" className="header-icon1 js-show-header-dropdown" alt="ICON"/></a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-
-                <div className="wrap-side-menu" >
-                </div>
-            </header>
-
+            <Header/>
             <section className="bg-title-page p-t-40 p-b-50 flex-col-c-m" style= {{backgroundImage: "url(images/heading-pages-01.jpg)"}}>
                 <h2 className="l-text2 t-center">
                     Cart
                 </h2>
             </section>
-
             <section className="cart bgwhite p-t-70 p-b-100">
                 <div className="container">
                     <div className="container-table-cart pos-relative">

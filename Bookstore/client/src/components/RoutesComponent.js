@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Route, withRouter } from 'react-router-dom';
 import Welcome from './Welcome';
 import ViewCart from './ViewCart/ViewCart';
+import ViewBooks from './Books/ViewBooks';
 
 class RoutesComponent extends Component{
 
@@ -22,6 +23,7 @@ class RoutesComponent extends Component{
                 )}/>
 
                 <Route path="/viewshoppingcart" component={ViewCart}/>
+                <Route path="/books" component={ViewBooks}/>
             </div>
         );
     }
