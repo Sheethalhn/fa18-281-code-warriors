@@ -45,4 +45,30 @@
 1. Riak is selected as AP database but yet to explore it further.
 2. developing minimal feasible frontend to demonstrate all the features initially.
 
+## Week 3 (18th November - 24th November)
+
+#### Meeting Date: 18th November
+
+#### Discussion Points:
+1. We discussed the microservice architecture for each individual apis.
+2. Discussed the entire flow of the architecture with advantages and drawbacks.
+3. Decided upon the UI flow for the application
+
+#### Meeting Results:
+
+1. Listed the following UI screen to start with:
+
+	i. user logins/signup/logout screens
+	ii. Transaction history
+	iii. Book Catalogue display - Home Screen
+	iv. adding to cart and managing it - Add to cart Button navigation/Viewing Cart Screen
+	v. payment - Fake Payment Screen
+2. Finishing the UI development with API integration.
+3. Study Microservices best practices while developing.
+
+#### Challenges:
+
+1. Microservice split integration for the architecture setup.
+2. Integrate all the databases.
+
 
