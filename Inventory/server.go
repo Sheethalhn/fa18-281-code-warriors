@@ -35,11 +35,11 @@ func NewServer() *negroni.Negroni {
 // API Routes
 func initRoutes(mx *mux.Router, formatter *render.Render) {
 	mx.HandleFunc("/ping", pingHandler(formatter)).Methods("GET")
-	mx.HandleFunc("/inventory/{bookids}", getInventoryHandler(formatter)).Methods("GET")
-	mx.HandleFunc("/inventory/{bookids}", updateInventoryHandler(formatter)).Methods("POST")
+	mx.HandleFunc("/viewinventory/{bookids}", viewInventoryHandler(formatter)).Methods("GET")
+	mx.HandleFunc("/updateinventory/{bookids}", updateInventoryHandler(formatter)).Methods("POST")
 }
 
-func getInventoryHandler(formatter *render.Render) http.HandlerFunc{
+func viewInventoryHandler(formatter *render.Render) http.HandlerFunc{
 	return func(w http.ResponseWriter, req *http.Request) {	
 	var bookIds []string = strings.Fields(req.URL.Query().Get("bookIds"))
 	fmt.Println("bookIds", bookIds )
