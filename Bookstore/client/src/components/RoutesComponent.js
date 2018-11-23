@@ -4,6 +4,7 @@ import Welcome from './Welcome';
 import ViewCart from './ViewCart/ViewCart';
 import ViewBooks from './Books/ViewBooks';
 import Login from './Login/Login'
+import Signup from './Login/Signup'
 
 class RoutesComponent extends Component{
 
@@ -26,6 +27,7 @@ class RoutesComponent extends Component{
                 <Route path="/viewshoppingcart" component={ViewCart}/>
                 <Route path="/books" component={ViewBooks}/>
                 <Route path="/login" component={Login}/>
+                <Route path="/signup" component={Signup}/>
             </div>
         );
     }
