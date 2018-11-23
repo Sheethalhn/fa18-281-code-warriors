@@ -47,9 +47,7 @@ func viewInventoryHandler(formatter *render.Render) http.HandlerFunc{
 		if err != nil {
 				panic(err)
 		}
-
 		defer req.Body.Close()
-
 
 		session, err := mgo.Dial(mongodb_server)
         if err != nil {
@@ -58,31 +56,59 @@ func viewInventoryHandler(formatter *render.Render) http.HandlerFunc{
         defer session.Close() 
         session.SetMode(mgo.Monotonic, true)
 		c := session.DB(mongodb_database).C(mongodb_collection)
-		
-		oids := make([]bson.ObjectId, len(count.BooksCount))
-		for i :=0;i<len(count.BooksCount);i++ {
-		  oids[i] = bson.ObjectIdHex(count.BooksCount[i].BookId)
-		}
-		var output []string
+
+		var output []bson.ObjectId
 
 		for i :=0;i<len(count.BooksCount);i++ {
-			var result struct{ count int `bson:"bookCount"` }
-			err = c.Find(bson.M{"_id": oids[i]}).Select(bson.M{"_id":0,"bookCount": 1}).One(&result)
-			
-			fmt.Println(result.count)
-			if result.count < count.BooksCount[i].BookCount {
+			type test struct  { Count int `json:"bookCount" bson:"bookCount"` }
+			var final test
+			err = c.Find(bson.M{"_id" : count.BooksCount[i].BookId}).Select(bson.M{"_id":0,"bookCount": 1}).One(&final)
+			if err != nil {
+                panic(err)
+        }
+			if final.Count < count.BooksCount[i].BookCount {
 					output = append(output,count.BooksCount[i].BookId)
-			}
+			}   
 		 }
 
-		fmt.Println("Book Details:", output)
-
-	
+ 		fmt.Println("Book Details:", output)
+		formatter.JSON(w, http.StatusOK, output) 
 	}
 }
 
 func updateInventoryHandler(formatter *render.Render) http.HandlerFunc{
 	return func(w http.ResponseWriter, req *http.Request) {	
+
+		decoder := json.NewDecoder(req.Body)
+		var count BooksCount
+		err := decoder.Decode(&count)
+		if err != nil {
+				panic(err)
+		}
+		defer req.Body.Close()
+
+		session, err := mgo.Dial(mongodb_server)
+        if err != nil {
+                panic(err)
+        }
+        defer session.Close() 
+        session.SetMode(mgo.Monotonic, true)
+		c := session.DB(mongodb_database).C(mongodb_collection)
+
+
+		for i :=0;i<len(count.BooksCount);i++ {
+			type test struct  { Count int `json:"bookCount" bson:"bookCount"` }
+			var final test
+			err = c.Find(bson.M{"_id" : count.BooksCount[i].BookId}).Select(bson.M{"_id":0,"bookCount": 1}).One(&final)	
+			
+			query := bson.M{"_id" : count.BooksCount[i].BookId}
+			change := bson.M{"$set": bson.M{ "bookCount" : final.Count-count.BooksCount[i].BookCount}}
+			err = c.Update(query, change)
+			if err != nil {
+                panic(err)
+        	}  
+		 }
+
 
 	}
 }
