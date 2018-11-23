@@ -5,13 +5,14 @@
 
 package main
 
-/*import (
+import (
     	"gopkg.in/mgo.v2/bson"
-)*/
+)
 
 type BooksCount struct {
 	BooksCount []struct {
-		BookId     string  `json:"bookId" bson:"_id,omitempty"`
+		BookId  bson.ObjectId `json:"bookId,omitempty" bson:"_id,omitempty"`
 		BookCount  int     `json:"bookCount"  bson:"bookCount"`
 	} `json:"books"`
 }
+
