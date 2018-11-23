@@ -1,19 +1,17 @@
 /*
-	Books API in Go
+	Inventory API in Go
 	Uses MongoDB
 */
 
 package main
 
-import (
+/*import (
     	"gopkg.in/mgo.v2/bson"
-)
+)*/
 
-type Books struct {
-	Id bson.ObjectId `json:"id,omitempty" bson:"_id,omitempty"`
-	BookName string `json:"bookName" bson:"bookName"` 
-	BookDesc string `json:"bookDesc" bson:"bookDesc"` 
-	Author string `json:"author" bson:"author"`
-	Price float64 `json:"price" bson:"price"`
-	BookCount int `json:"bookCount" bson:"bookCount"`
+type BooksCount struct {
+	BooksCount []struct {
+		BookId     string  `json:"bookId" bson:"_id,omitempty"`
+		BookCount  int     `json:"bookCount"  bson:"bookCount"`
+	} `json:"books"`
 }
