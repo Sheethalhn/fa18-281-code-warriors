@@ -71,4 +71,22 @@
 1. Microservice split integration for the architecture setup.
 2. Integrate all the databases.
 
+## Week 4 (25th November - 1st December)
+
+#### Meeting Date: 25th November
+
+#### Discussion Points:
+1. We discussed the client side architecture to develop the frontend and merg methodology.
+2. Discussed the Requirements of Rest APIs to integrate with the backend GO API.
+3. Client side feature integrations
+
+#### Meeting Results:
+
+1. Database setup ready to integrate with the GO API.
+3. UI Integration with GO backend ready by the end of the week.
+
+#### Challenges:
+
+1. Database Sharding key selection based on the application
+
 

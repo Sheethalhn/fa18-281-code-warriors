@@ -17,3 +17,17 @@ export const getBooks = () =>
     }).catch(error => {
         return error;
     });
+
+export const getBookByIds = (payload) =>
+    fetch(`${api}/books/?bookId=` + payload, {
+        method: 'GET',
+        headers: {
+            ...headers,
+            'Content-Type': 'application/json'
+        },
+        credentials: 'include',
+    }).then(res => {
+        return res.json();
+    }).catch(error => {
+        return error;
+    });

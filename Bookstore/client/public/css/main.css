@@ -38,21 +38,6 @@
   src: url('../fonts/poppins/Poppins-Black.ttf'); 
 }
 
-/*[ RESTYLE TAG ]
-///////////////////////////////////////////////////////////
-*/
-* {
-	margin: 0px; 
-	padding: 0px; 
-	box-sizing: border-box;
-}
-
-body, html {
-	height: 100%;
-	font-family: Montserrat-Regular, sans-serif;
-  font-weight: 400;
-}
-
 /* ------------------------------------ */
 a {
 	font-family: Montserrat-Regular;
@@ -1828,12 +1813,6 @@ li.sale-noti > a {
     margin-left: -6px;
   }
 }
-
-
-/*[ Modal video 01 ]
-///////////////////////////////////////////////////////////
-*/
-body {padding-right: 0px !important;}
 
 .modal {
   padding: 0px !important;

@@ -16,4 +16,5 @@ type Books struct {
 	Author string `json:"author" bson:"author"`
 	Price float64 `json:"price" bson:"price"`
 	BookCount int `json:"bookCount" bson:"bookCount"`
+	BookImage string `json:"bookimg" bson:"bookimg"`
 }
