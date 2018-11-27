@@ -1,8 +1,3 @@
-/*
-	Gumball API in Go (Version 2)
-	Uses MongoDB and RabbitMQ 
-*/
-	
 package main
 
 import (

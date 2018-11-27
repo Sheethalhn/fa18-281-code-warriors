@@ -1,20 +1,12 @@
-/*
-	Gumball API in Go (Version 2)
-	Uses MongoDB and RabbitMQ 
-*/
-	
 package main
 
-type gumballMachine struct {
-	Id             	int 	
-	CountGumballs   int    	
-	ModelNumber 	string	    
-	SerialNumber 	string	
-}
+import (
+    	
+)
 
-type order struct {
-	Id             	string 	
-	OrderStatus 	string	
+type Users struct {
+	UserName  string `json:"username" bson:"username"`
+	Password  string `json:"password" bson:"password"`
+	FirstName string `json:"firstname" bson:"firstname"`
+	LastName  string `json:"lastname" bson:"lastname"`
 }
-
-var orders map[string] order
