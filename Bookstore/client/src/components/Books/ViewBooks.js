@@ -4,19 +4,6 @@ import './books.css';
 import * as API from '../../api/BookAPI';
 import { Link } from 'react-router-dom';
 
-var booktable = [
-    { price: 1.32, bookName: "book1", bookImg: "img1.jpg", bookDesc: "My desc-1", author: "Shreya Shah", bookId: "1" },
-    { price: 2.45, bookName: "book2", bookImg: "img2.jpg", bookId: "2" },
-    { price: 1.32, bookName: "book3", bookImg: "img3.jpg", bookId: "3" },
-    { price: 2.45, bookName: "book4", bookImg: "img4.jpg", bookId: "4" },
-    { price: 1.32, bookName: "book5", bookImg: "img5.jpg", bookId: "5" },
-    { price: 2.45, bookName: "book6", bookImg: "img6.jpg", bookId: "6" },
-    { price: 2.45, bookName: "book7", bookImg: "img7.jpg", bookId: "7" },
-    { price: 2.45, bookName: "book8", bookImg: "img8.jpg", bookId: "8" },
-    { price: 2.45, bookName: "book9", bookImg: "img9.jpg", bookId: "9" },
-    { price: 2.45, bookName: "book10", bookImg: "img10.jpg", bookId: "10" }
-]
-
 class ViewBooks extends Component {
 
     constructor(props) {
