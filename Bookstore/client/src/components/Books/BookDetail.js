@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import * as API from '../../api/BookAPI';
 import Header from '../Header/Header';
 import './books.css';
-
+import { Button, Modal } from 'react-bootstrap';
 
 class BookDetail extends Component {
 
@@ -26,7 +26,14 @@ class BookDetail extends Component {
                     }
                 });
         }
+    }
 
+    handleClose() {
+        this.setState({ show: false });
+    }
+
+    handleShow(book) {
+        this.setState({ show: true });
     }
 
     render() {
@@ -40,7 +47,7 @@ class BookDetail extends Component {
                                 <div className="slick3">
                                     <div className="item-slick3" data-thumb="images/thumb-item-01.jpg">
                                         <div className="book-detail-img wrap-pic-w">
-                                            <img src={'/images/'+this.state.bookObj.bookImg} alt="IMG-PRODUCT" />
+                                            <img src={'/images/' + this.state.bookObj.bookImg} alt="IMG-PRODUCT" />
                                         </div>
                                     </div>
                                 </div>
@@ -70,6 +77,21 @@ class BookDetail extends Component {
                         </div>
                     </div>
                 </div>
+                <Modal
+                    aria-labelledby="contained-modal-title-vcenter"
+                    centered
+                    show={this.state.show}
+                    onHide={this.handleClose}>
+                    <Modal.Header closeButton>
+                        <Modal.Title>Book Store</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>Hurray! <h4>{this.state.bookObj.bookName}</h4> is added to cart !</Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="success" onClick={this.handleClose}>
+                            Close
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             </div>
         )
     }
