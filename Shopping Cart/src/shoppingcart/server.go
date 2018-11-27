@@ -39,6 +39,7 @@ func initRoutes(mx *mux.Router, formatter *render.Render) {
 	mx.HandleFunc("/ping", pingHandler(formatter)).Methods("GET")
 	mx.HandleFunc("/viewcart/{userid}", shoppingCartHandler(formatter)).Methods("GET")
 	mx.HandleFunc("/addcart/{userid}", shoppingCartAddHandler(formatter)).Methods("POST")
+	mx.HandleFunc("/addbooktocart/{userid}", shoppingCartAddBookHandler(formatter)).Methods("POST")
 	mx.HandleFunc("/updatecart/{userid}", shoppingCartUpdateHandler(formatter)).Methods("POST")
 	mx.HandleFunc("/clearcart/{userid}", shoppingCartRemoveHandler(formatter)).Methods("POST")
 }
@@ -129,7 +130,8 @@ func shoppingCartUpdateHandler(formatter *render.Render) http.HandlerFunc {
         err = c.Update(query, change)
         if err != nil {
                 log.Fatal(err)
-        }
+		}
+		formatter.JSON(w, http.StatusOK, "Successfully Updated")
 	  }
 	}
 
@@ -155,3 +157,33 @@ func shoppingCartRemoveHandler(formatter *render.Render) http.HandlerFunc {
 	}
 }
 
+
+// API Add Book Shopping Cart
+func shoppingCartAddBookHandler(formatter *render.Render) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		params := mux.Vars(req)
+		var userid string = params["userid"]
+		var newCart Cart
+		decoder := json.NewDecoder(req.Body)
+		err := decoder.Decode(&newCart)
+		cartItems := newCart.Books
+		fmt.Println("newCart", newCart )
+
+		session, err := mgo.Dial(mongodb_server)
+		if err != nil {
+			panic(err)
+		}
+		defer session.Close()
+		session.SetMode(mgo.Monotonic, true)
+		c := session.DB(mongodb_database).C(mongodb_collection)
+
+		var result bson.M
+		err = c.Find( bson.M {"userid" : userid}).One(&result)
+		// rawjson, err := json.Marshal(result)
+		// var results string = string(rawjson) 
+        if err == nil {
+			fmt.Println("Shopping Cart Details:", result)
+			c.Update(bson.M{"userid": userid}, bson.M{"$push": bson.M{"books": cartItems[0]}})			
+		}
+	  }
+	}

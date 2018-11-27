@@ -1,11 +1,19 @@
 import React, {Component} from 'react';
-import axios from 'axios';
+// import axios from 'axios';
 import NumericInput from 'react-numeric-input';
 import '../../App.css';
 import Header from '../Header/Header';
+import * as API from '../../api/ViewCartAPI';
+import * as APIBOOK from '../../api/BookAPI';
+
 
 // DUMMY VALUES
-var booktable = [{price : 1.32, bookname: "book1"}, {price:2.45, bookname : "book2"}]
+// var booktable = [{price : 1.32, bookname: "book1"}, {price:2.45, bookname : "book2"}]
+
+function roundToTwo(num) {    
+    return Math.ceil(num * 100)/100;
+}
+
 
 class ViewCart extends Component{
     constructor(props){
@@ -41,14 +49,13 @@ class ViewCart extends Component{
 
     updateCart () {
         var books = this.state.updatebooks
-        console.log(this.state.bookstable)
         var table = JSON.parse(JSON.stringify(this.state.bookstable))
         console.log(table)
         table.books = []
         var totalamount = 0;
         for(var i=0; i<books.length;i++){
             var a = []
-            books[i].amount = books[i].bookcount * books[i].price;
+            books[i].amount = roundToTwo(books[i].bookcount * books[i].price);
             a.bookid = books[i].bookid
             a.bookcount = books[i].bookcount
             totalamount += books[i].amount;
@@ -59,14 +66,14 @@ class ViewCart extends Component{
             totalamount : totalamount,
             rows : JSON.parse(JSON.stringify(books))
         })
-        //var userid = 1;
-        // axios.post(`http://localhost:3001/updatecart/${userid}`, table)
-        // .then(response => {
-        //     console.log("Status Code : ",response);
-        //     if(response.status === 200){  
-        //         console.log(response.data)
-        //     }
-        //    })
+        var userid = 1; //Dummy value
+        API.updateCart(userid, table)
+        .then(response => {
+            console.log("Status Code : ",response);
+            if(response.status === 200){  
+                console.log(response.data)
+            }
+        })
     }
 
     changecount = (evt, i) => {
@@ -138,18 +145,19 @@ class ViewCart extends Component{
 
     componentDidMount() {
         var userid = 1; // DUMMY VALUE
-        axios.get(`http://localhost:3001/viewcart/${userid}`)
-        .then(response => {
+        API.viewCart(userid).then(response => {
             console.log("Status Code : ",response);
             if(response.status === 200){  
                 var books = JSON.parse(JSON.stringify(response.data.books))
                 var totalamount = 0;
                 for(var i=0; i<books.length;i++){
                     //TODO API CALL TO BOOKS TO GET PRICE
-                    books[i].price = booktable[i].price
-                    books[i].bookname = booktable[i].bookname
-                    books[i].amount = books[i].bookcount * books[i].price;
-                    totalamount += books[i].amount;
+                    APIBOOK.getBookByIds(books[i].bookid).then(resultData => {
+                        books[i].price = resultData.data[0].price
+                        books[i].bookname = resultData.data[0].bookName
+                        books[i].amount = roundToTwo(books[i].bookcount * books[i].price);
+                        totalamount += books[i].amount;
+                    })
                 }
                 var books1 = JSON.parse(JSON.stringify(books))
                 this.setState ({
@@ -194,14 +202,14 @@ class ViewCart extends Component{
                     <div className="flex-w flex-sb-m p-t-25 p-b-25 bo8 p-l-35 p-r-60 p-lr-15-sm">
                         <div className="size10 trans-0-4 m-t-10 m-b-10"> 
                             <button className="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4" data-toggle="modal" data-target="#editmodal">
-                                Update Cart
+                                Edit Cart
                             </button>
-                            <div className="modal fade modal-xl" id="editmodal" tabIndex="-1" role="dialog" aria-labelledby="modallabel" aria-hidden="true"  style = {{marginTop : "40px"}}>
+                            <div className="modal fade modal-xl" id="editmodal" tabIndex="-1" role="dialog" aria-labelledby="modallabel" aria-hidden="true"  style = {{marginTop : "40px", marginLeft : "50px"}}>
                                 <div className="modal-dialog modal-dialog-centered modal-xl">
                                     <div className="modal-content">
                                         <div className="modal-header">
-                                            <h5 className="modal-title" id="modallabel">Edit Cart</h5>
-                                            <button type="button" className="close" data-dismiss="modal" aria-label="Close">
+                                            <h5 className="m-text20 p-b-24" id="modallabel">Edit Cart</h5>
+                                            <button type="button" className="close" data-dismiss="modal" onClick = {this.resetCart} aria-label="Close">
                                             &times;
                                             </button>
                                         </div>
@@ -218,9 +226,12 @@ class ViewCart extends Component{
                                                 {this.editContents()}
                                             </tbody>
                                           </table>
-                                          <div className="modal-footer">
-                                                <button type="button" className="btn btn-secondary" data-dismiss="modal" onClick = {this.resetCart}>Close</button>
-                                                <button type="submit" className="btn btn-primary" data-dismiss="modal" onClick = {this.updateCart}>Save changes</button>
+                                          <div className = "modal-footer">
+                                          <div className="size10 trans-0-4 m-t-10 m-b-10">
+                                                <button type="button" className="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4" data-dismiss="modal" onClick = {this.resetCart}>Close</button></div>         
+                                                <div className="size10 trans-0-4 m-t-10 m-b-10">
+                                                <button type="submit" className="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4" data-dismiss="modal" onClick = {this.updateCart}>Save changes</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
