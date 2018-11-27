@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import * as API from '../../api/API';
+import * as API from '../../api/BookAPI';
 import Header from '../Header/Header';
 import './books.css';
 
@@ -9,25 +9,17 @@ class BookDetail extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            bookObj: {},
-            bookList: [],
-            bookId: ""
+            bookObj: {}
         };
     }
 
     componentDidMount() {
-        this.setState({
-            bookId: this.props.match.params.bookId
-        })
-        if (this.state.bookId != null) {
-            this.setState({
-                bookObj: { price: 1.32, bookName: "book1", bookImg: "img1.jpg", bookDesc: "My desc-1", author: "Shreya Shah", bookId: "1" }
-            });
-            API.getBookByIds(this.state.bookId.split(","))
+        if (this.props.match.params.bookId != null) {
+            API.getBookByIds(this.props.match.params.bookId)
                 .then((resultData) => {
-                    if (!!resultData) {
+                    if (!!resultData && !!resultData.data && resultData.data.length > 0) {
                         this.setState({
-                            bookObj: { price: 1.32, bookName: "book1", bookImg: "img1.jpg", bookDesc: "My desc-1", author: "Shreya Shah", bookId: "1" }
+                            bookObj: resultData.data[0]
                         });
                     } else {
                         console.log("There are no books in DB");
@@ -56,10 +48,10 @@ class BookDetail extends Component {
                         </div>
                         <div className="w-size14 p-t-30 respon5">
                             <h4 className="product-detail-name m-text16 p-b-13">
-                                {this.state.bookObj.bookName}
+                                <b>{this.state.bookObj.bookName}</b>
                             </h4>
                             <span className="m-text17">
-                                {this.state.bookObj.price}
+                                Price: ${this.state.bookObj.price}
                             </span>
                             <p className="s-text8 p-t-10">
                                 {this.state.bookObj.bookDesc}

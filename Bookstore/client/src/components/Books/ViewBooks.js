@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import Header from '../Header/Header';
 import './books.css';
-import * as API from '../../api/API';
+import * as API from '../../api/BookAPI';
 import { Link } from 'react-router-dom';
 
 var booktable = [
@@ -30,8 +30,9 @@ class ViewBooks extends Component {
         API.getBooks()
             .then((resultData) => {
                 if (!!resultData) {
+                    console.log(resultData)
                     this.setState({
-                        bookList: resultData
+                        bookList: JSON.parse(JSON.stringify(resultData.data))
                     });
                 } else {
                     console.log("There are no open projects in DB");
@@ -41,7 +42,7 @@ class ViewBooks extends Component {
 
     render() {
 
-        const beforeFiveNode = booktable.map((book, index) => {
+        const beforeFiveNode = this.state.bookList.map((book, index) => {
             if (index < 5) {
                 return <div key={index} className="col p-b-50">
                     <div className="block2">
@@ -64,7 +65,7 @@ class ViewBooks extends Component {
                                 {book.bookName}
                             </Link>
                             <span className="block2-price m-text6 p-r-5">
-                                {book.price}
+                                Price: ${book.price}
                             </span>
                         </div>
                     </div>
@@ -98,7 +99,7 @@ class ViewBooks extends Component {
                                     {book.bookName}
                                 </Link>
                                 <span className="block2-price m-text6 p-r-5">
-                                    {book.price}
+                                    Price: ${book.price}
                                 </span>
                             </div>
                         </div>

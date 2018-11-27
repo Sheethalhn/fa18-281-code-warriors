@@ -44,11 +44,12 @@ func NewServer() *negroni.Negroni {
 func initRoutes(mx *mux.Router, formatter *render.Render) {
 	mx.HandleFunc("/ping", pingHandler(formatter)).Methods("GET")
 	mx.HandleFunc("/books", getAllBooksHandler(formatter)).Methods("GET")
-	mx.HandleFunc("/books/{bookids}", getBookByIdsHandler(formatter)).Methods("GET")
+	mx.HandleFunc("/book/", getBookByIdsHandler(formatter)).Methods("GET")
 }
 
 func getAllBooksHandler(formatter *render.Render) http.HandlerFunc{
-	return func(w http.ResponseWriter, req *http.Request) {		
+	return func(w http.ResponseWriter, req *http.Request) {	
+		setDefaultHeaders(w)	
 		session, err := mgo.Dial(mongodb_server)
 		if err != nil {
 			panic(err)
@@ -69,8 +70,8 @@ func getAllBooksHandler(formatter *render.Render) http.HandlerFunc{
 
 func getBookByIdsHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
-		//params := mux.Vars(req)
-		var bookIds []string = strings.Fields(req.URL.Query().Get("bookIds"))
+		setDefaultHeaders(w)	
+		var bookIds []string = strings.Split(req.URL.Query().Get("bookIds"),",")
 		fmt.Println("bookIds", bookIds )
 
 		session, err := mgo.Dial(mongodb_server)
@@ -85,7 +86,8 @@ func getBookByIdsHandler(formatter *render.Render) http.HandlerFunc {
 		for i := range bookIds {
 		  oids[i] = bson.ObjectIdHex(bookIds[i])
 		}
-		query := bson.M{"_id": bson.M{"$in": bookIds}}
+		query := bson.M{"_id": bson.M{"$in": oids}}
+		fmt.Println("query",query)
 		err = c.Find(query).All(&result)
 		rawjson, err := json.Marshal(result)
 		var bookResults string = string(rawjson) 
@@ -116,4 +118,13 @@ func pingHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
 		formatter.JSON(w, http.StatusOK, struct{ Test string }{"API version 1.0 alive!"})
 	}
+}
+
+func setDefaultHeaders(w http.ResponseWriter) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+	w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+	w.Header().Set("Cache-Control", "no-store, no-cache, must-revalidate, post-check=0, pre-check=0")
+	w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+	w.Header().Set("Vary", "Accept-Encoding")
 }
