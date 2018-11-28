@@ -10,3 +10,8 @@ type Users struct {
 	FirstName string `json:"firstname" bson:"firstname"`
 	LastName  string `json:"lastname" bson:"lastname"`
 }
+
+type Users1 struct {
+	UserName  string `json:"username" bson:"username"`
+	
+}

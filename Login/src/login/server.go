@@ -8,12 +8,15 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/unrolled/render"
 	"gopkg.in/mgo.v2"
+	//"gopkg.in/mgo.v2/bson"
     	
 )
 
 var mongodb_server = "mongodb://admin:admin12345@ds117834.mlab.com:17834/bookstore"
 var mongodb_database = "bookstore"
 var mongodb_collection = "users"
+var mongodb_collection1 = "users1"
+
 
 //var mongodb_server string
 
@@ -56,6 +59,7 @@ func signupHandler(formatter *render.Render) http.HandlerFunc{
 		defer session.Close()
 		session.SetMode(mgo.Monotonic, true)
 		c := session.DB(mongodb_database).C(mongodb_collection)
+		h := session.DB(mongodb_database).C(mongodb_collection1)
 		// 	var books []Books
 		// 	err = c.Find(bson.M{}).All(&books)
 		// 	if err != nil {
@@ -75,15 +79,34 @@ func signupHandler(formatter *render.Render) http.HandlerFunc{
 		Password := user.Password
 		fmt.Println(UserName)
 		fmt.Println(Password)
+
+		
+		
+		
+
+		count, err4 := c.Find(&Users1{UserName: UserName}).Count()
+		fmt.Println(err4)
+		if count > 0 {
+			formatter.JSON(w, http.StatusOK, "false")
+		}
+		if count == 0{
+			
 		err1 := c.Insert(&Users{UserName: UserName, Password: Password})
 
 			if err1 != nil {
 				panic(err1)
 			}
 		fmt.Println(err1)
-		
-		formatter.JSON(w, http.StatusOK, true)
 
+		err3 := h.Insert(&Users1{UserName: UserName})
+
+			if err3 != nil {
+				panic(err3)
+			}
+		fmt.Println(err3)
+		
+		formatter.JSON(w, http.StatusOK, "true")
+		}
 
 	 }
 
