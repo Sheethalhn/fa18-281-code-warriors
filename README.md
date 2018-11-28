@@ -17,6 +17,8 @@ Saranya - Communication
 
 Shreya - Courage
 
+Divyank - Feedback
+
 ## Agile Scrum Kanban Board
 
 [Task Board](https://github.com/nguyensjsu/fa18-281-code-warriors/projects/1)
