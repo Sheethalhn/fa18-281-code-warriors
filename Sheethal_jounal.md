@@ -23,3 +23,16 @@ Agile Core value -Simplicity
 
 This is still second week and team is yet to actually start coding in GO.So kept our achictecture design simple with a basic flow between API's.Team decided to develop basic go code first and check connectivity between our API's and then go ahead with further exception handling scenarios and concurrency control.
 
+## Week 3
+
+1.Discussed with team regarding the micro service architecture implementation
+2.Decided UI theme for project and discussed basic UI flow to make sure of requirements
+3.I took up payment screen to implement as part of UI development
+4.Need to spend more time on understanding microservice API implementation
+5.We decided to shard user transaction data based on user id
+
+Agile Core value -Simplicity
+
+While developing Go API we are trying to keep it as simple as possible since its our first attempt with GO and microservice architecture.Decided on simple UI design with minimalistic features required.Goal is to make app work end to end before diving into depth of concurrency in GO
+
+
