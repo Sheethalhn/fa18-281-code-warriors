@@ -148,8 +148,7 @@ func loginHandler(formatter *render.Render) http.HandlerFunc{
 		
 		result := Users{}
 		err3 := c.Find(&Users{UserName: UserName, Password: Password}).One(&result)
-		fmt.Println(err3)
-		fmt.Println(result)
+		
 		if err3 != nil {
 		formatter.JSON(w, http.StatusOK, "false")
 		}
