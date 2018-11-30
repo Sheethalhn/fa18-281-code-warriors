@@ -78,6 +78,8 @@ func signupHandler(formatter *render.Render) http.HandlerFunc{
 
 		UserName := user.UserName
 		Password := user.Password
+		FirstName := user.FirstName
+		LastName := user.LastName
 		fmt.Println(UserName)
 		fmt.Println(Password)
 
@@ -92,7 +94,7 @@ func signupHandler(formatter *render.Render) http.HandlerFunc{
 		}
 		if count == 0{
 			
-		err1 := c.Insert(&Users{UserName: UserName, Password: Password})
+		err1 := c.Insert(&Users{UserName: UserName, Password: Password, FirstName: FirstName, LastName: LastName})
 
 			if err1 != nil {
 				panic(err1)
@@ -148,7 +150,8 @@ func loginHandler(formatter *render.Render) http.HandlerFunc{
 		
 		result := Users{}
 		err3 := c.Find(&Users{UserName: UserName, Password: Password}).One(&result)
-		
+		fmt.Println(err3)
+		fmt.Println(result)
 		if err3 != nil {
 		formatter.JSON(w, http.StatusOK, "false")
 		}
