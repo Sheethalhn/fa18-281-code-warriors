@@ -2,11 +2,22 @@
   height: 400px;
     width: 500px;
   background-color: #3c3c3d;
-  margin-top: 10%;
+  margin-top: 5%;
   margin-left: 35%;
   box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
 
 }
+
+.signup-box{
+  height: 575px;
+  width: 500px;
+  background-color: #3c3c3d;
+  margin-top: 2%;
+  margin-left: 35%;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+
+}
+
 
 .book-style{
   margin-top: 2%;
@@ -16,7 +27,7 @@
 }
 
 .form-body{
-   margin-top: 10px;
+   margin-top: 0px;
 
 }
 
