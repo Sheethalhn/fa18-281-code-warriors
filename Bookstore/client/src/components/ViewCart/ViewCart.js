@@ -1,11 +1,13 @@
 import React, {Component} from 'react';
+import {Redirect} from 'react-router';
 // import axios from 'axios';
 import NumericInput from 'react-numeric-input';
+import SweetAlert from 'react-bootstrap-sweetalert';
 import '../../App.css';
 import Header from '../Header/Header';
 import * as API from '../../api/ViewCartAPI';
 import * as APIBOOK from '../../api/BookAPI';
-
+import * as APIINVENTORY from '../../api/InventoryAPI';
 
 // DUMMY VALUES
 // var booktable = [{price : 1.32, bookname: "book1"}, {price:2.45, bookname : "book2"}]
@@ -24,12 +26,16 @@ class ViewCart extends Component{
             totalamount : 0,
             updatebooks :[{}],
             isLoading : true,
+            inventoryclear : false,
+            alert : null
         };
         //Bind the handlers to this class
         this.updateCart = this.updateCart.bind(this)
         this.deletebook = this.deletebook.bind(this)
         this.changecount = this.changecount.bind(this)
         this.resetCart = this.resetCart.bind(this)
+        this.proceedCheckout = this.proceedCheckout.bind(this)
+        this.cancelAlert = this.cancelAlert.bind(this)
     }
 
     resetCart () {
@@ -45,6 +51,46 @@ class ViewCart extends Component{
         this.setState ({
             updatebooks : JSON.parse(JSON.stringify(ubooks)) 
         })
+    }
+
+    proceedCheckout = () => {
+        // API CALL TO CHECK INVENTORY  - /payment
+        var checkbook = []
+        var rows = JSON.parse(JSON.stringify(this.state.rows))
+        for(var k=0; k<rows.length; k++){
+            var a = []
+            a.bookid = rows[k].bookid
+            a.bookcount = rows[k].bookcount
+            checkbook.push(a)
+        }
+        APIINVENTORY.viewInventory(checkbook).then(resultData => {
+            if(resultData.length === 0){
+                this.setState ({
+                    inventoryclear : true
+                })
+            } else {
+                const getAlert = () => (
+                    <SweetAlert 
+                        warning
+                        showCancel
+                        confirmBtnBsStyle="danger"
+                        cancelBtnBsStyle="default"
+                        title="Some Books are not available"
+                        onConfirm={this.cancelAlert}>
+                        {resultData}
+                    </SweetAlert>
+                );
+                this.setState({
+                  alert: getAlert(),
+                })
+            }
+        })
+    }
+
+    cancelAlert = () => {
+        this.setState({
+            alert: null
+        });
     }
 
     updateCart () {
@@ -172,8 +218,13 @@ class ViewCart extends Component{
     }
     
     render(){
+        let redirectVar = null;
+        if( this.state.inventoryclear ){
+            redirectVar = <Redirect to= "/payment"/>
+        }
         return(
          <div>
+             {redirectVar}
             <Header/>
             <section className="bg-title-page p-t-40 p-b-50 flex-col-c-m" style= {{backgroundImage: "url(images/heading-pages-01.jpg)"}}>
                 <h2 className="l-text2 t-center">
@@ -256,9 +307,9 @@ class ViewCart extends Component{
                         </div>
 
                         <div className="size15 trans-0-4">
-                            <button className="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">
+                            <button className="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4" onClick = {this.proceedCheckout}>
                                 Proceed to Checkout
-                            </button>
+                            </button> {this.state.alert}
                         </div>
                     </div>
                 </div>
