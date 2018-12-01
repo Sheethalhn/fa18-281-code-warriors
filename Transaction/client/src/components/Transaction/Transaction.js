@@ -43,7 +43,7 @@ class Transaction extends Component{
             <div className="container">
                 <Header/>
                 <div className="signup-box col-md-4">
-                    <p style={{ color: "white"}}>SIGNUP HERE</p> <br />
+                    <p style={{ color: "white"}}>Recent Transactions</p> <br />
                     <div className="form-body">
                         <input type="text" placeholder="Username" className="form-element"
                                onChange={(event) => {
