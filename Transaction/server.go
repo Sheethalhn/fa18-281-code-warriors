@@ -1,7 +1,7 @@
 package main
 
 import (
-	"fmt"
+	//"fmt"
 	"net/http"
 	"encoding/json"
 	//"log"
@@ -67,10 +67,10 @@ func transactionCreateHandler(formatter *render.Render) http.HandlerFunc{
 			panic(err2)
 		}
 		
-		fmt.Println(transaction.BookId)
+		tempbooks:=transaction.MyBooks
 
 		tempid := bson.NewObjectId()
-		err1 := c.Insert(&Transaction{ID: tempid})
+		err1 := c.Insert(&Transaction{ID: tempid,MyBooks:tempbooks})
 
 		if err1 != nil {
 			panic(err1)
