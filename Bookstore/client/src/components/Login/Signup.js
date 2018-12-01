@@ -22,12 +22,7 @@ class Signup extends Component{
 
     handleSignUp = (data) => {
 
-        var config = {
-            headers: {'Access-Control-Allow-Origin': '*',
-                'Accept': 'application/json'
-            }
-        };
-        axios.post('http://localhost:3000/signup',data,config).then((response) => {
+        axios.post('http://localhost:3000/signup',data).then((response) => {
             console.log(response);
             if(response.data == "true"){
                 this.setState({

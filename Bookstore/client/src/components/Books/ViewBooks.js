@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Header from '../Header/Header';
 import './books.css';
 import * as API from '../../api/BookAPI';
+import * as ViewCartAPI from '../../api/ViewCartAPI';
 import { Link } from 'react-router-dom';
 import { Button, Modal } from 'react-bootstrap';
 
@@ -37,10 +38,21 @@ class ViewBooks extends Component {
     }
 
     handleShow(book) {
-        this.setState({
-            show: true,
-            bookName: book.bookName
-        });
+        let bookList = [];
+        let payloadJson = {};
+        let bookJSON = {};
+        bookJSON.bookId = book.bookId;
+        bookJSON.bookCount = 1;
+        bookList.push(bookJSON);
+        payloadJson.books = bookList;
+        console.log("payloadJson :",payloadJson);
+        ViewCartAPI.addBookToCart(1,payloadJson)
+            .then((resultData) => {
+                this.setState({
+                    show: true,
+                    bookName: book.bookName
+                });
+            });
     }
 
     render() {
