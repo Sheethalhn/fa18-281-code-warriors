@@ -34,6 +34,11 @@ class Signup extends Component{
                     message: "Signup Successfull!"
                 })
             }
+            else{
+                this.setState({
+                    message: "User already exists!!"
+                })
+            }
 
         })
 
@@ -95,7 +100,7 @@ class Signup extends Component{
                     >SIGNUP</button>
                     <br /><br />
                     <p style={{ color: "white" }}>Already a Member? <Link to="/login">Login here!!</Link> </p>
-                    <p>{this.state.message}</p>
+                    <p style={{ color: 'white'}}>{this.state.message}</p>
                 </div>
 
             </div>

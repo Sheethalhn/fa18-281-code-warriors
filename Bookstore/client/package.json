@@ -8,6 +8,7 @@
     "react": "^16.6.3",
     "react-addons-update": "^15.6.2",
     "react-bootstrap": "^1.0.0-beta.3",
+    "react-bootstrap-sweetalert": "^4.4.1",
     "react-dom": "^16.6.3",
     "react-numeric-input": "^2.2.3",
     "react-router-dom": "^4.3.1",
