@@ -18,22 +18,27 @@ class Transaction extends Component{
         }
     }
 
-    handleSignUp = (data) => {
-
-        var config = {
-            headers: {'Access-Control-Allow-Origin': '*',
-                'Accept': 'application/json'
-            }
-        };
-        axios.post('http://localhost:3000/signup',data,config).then((response) => {
+    componentWillMount() {
+        axios.get('http://localhost:3000/getAllTransactionByUser/12345').then((response) => {
             console.log(response);
             if(response.data == "true"){
                 this.setState({
-                    message: "Signup Successfull!"
+                    message: "get tran Successfull!"
                 })
             }
 
         })
+    }
+
+
+    handleSignUp = (data) => {
+
+        var config = {
+            // headers: {'Access-Control-Allow-Origin': '*',
+            //     'Accept': 'application/json'
+            // }
+        };
+
 
     }
 
