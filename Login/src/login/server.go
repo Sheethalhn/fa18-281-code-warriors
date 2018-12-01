@@ -9,6 +9,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/unrolled/render"
 	"gopkg.in/mgo.v2"
+	"github.com/rs/cors"
 	//"gopkg.in/mgo.v2/bson"
     	
 )
@@ -34,10 +35,15 @@ func NewServer() *negroni.Negroni {
 	//mongodb_server = os.Getenv("MONGO_SERVER")
 	//mongodb_database = os.Getenv("MONGO_DB")
 	//mongodb_collection = os.Getenv("MONGO_COLLECTION")
-	
+	corsObj := cors.New(cors.Options{
+        AllowedOrigins: []string{"*"},
+        AllowedMethods: []string{"POST", "GET", "OPTIONS", "PUT", "DELETE"},
+        AllowedHeaders: []string{"Accept", "content-type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"},
+    })
 	n := negroni.Classic()
 	mx := mux.NewRouter()
 	initRoutes(mx, formatter)
+	n.Use(corsObj)
 	n.UseHandler(mx)
 	return n
 }
@@ -46,6 +52,7 @@ func NewServer() *negroni.Negroni {
 func initRoutes(mx *mux.Router, formatter *render.Render) {
 	mx.HandleFunc("/login", loginHandler(formatter)).Methods("POST")
 	mx.HandleFunc("/signup", signupHandler(formatter)).Methods("POST")
+	mx.HandleFunc("/getUserById", getUserHandler(formatter)).Methods("POST")
 	
 }
 
@@ -61,13 +68,6 @@ func signupHandler(formatter *render.Render) http.HandlerFunc{
 		session.SetMode(mgo.Monotonic, true)
 		c := session.DB(mongodb_database).C(mongodb_collection)
 		h := session.DB(mongodb_database).C(mongodb_collection1)
-		// 	var books []Books
-		// 	err = c.Find(bson.M{}).All(&books)
-		// 	if err != nil {
-		// 		log.Fatal(err)
-		// 	}
-		// fmt.Println("All Books are :", books)
-		// formatter.JSON(w, http.StatusOK, books)
 		decoder := json.NewDecoder(req.Body)
 
 		var user Users
@@ -126,6 +126,52 @@ func loginHandler(formatter *render.Render) http.HandlerFunc{
 			defer session.Close()
 			session.SetMode(mgo.Monotonic, true)
 			c := session.DB(mongodb_database).C(mongodb_collection)
+		
+		decoder := json.NewDecoder(req.Body)
+
+		var user Users
+		err2 := decoder.Decode(&user)
+		if err2 != nil {
+		panic(err2)
+		}
+
+		UserName := user.UserName
+		Password := user.Password
+		fmt.Println(UserName)
+		fmt.Println(Password)
+
+		
+		result := Users{}
+		err3 := c.Find(&Users{UserName: UserName, Password: Password}).One(&result)
+		fmt.Println(err3)
+		fmt.Println(result)
+		if err3 != nil {
+		formatter.JSON(w, http.StatusOK, "false")
+		}
+		if err3 == nil{
+			formatter.JSON(w, http.StatusOK, "true")	
+		}
+
+		
+		
+		
+
+		
+	 }
+
+}
+
+func getUserHandler(formatter *render.Render) http.HandlerFunc{
+	return func(w http.ResponseWriter, req *http.Request) {	
+		setDefaultHeaders(w)	
+			session, err := mgo.Dial(mongodb_server)
+			if err != nil {
+				panic(err)
+				return
+			}
+			defer session.Close()
+			session.SetMode(mgo.Monotonic, true)
+			c := session.DB(mongodb_database).C(mongodb_collection)
 		//h := session.DB(mongodb_database).C(mongodb_collection1)
 		// 	var books []Books
 		// 	err = c.Find(bson.M{}).All(&books)
@@ -156,7 +202,7 @@ func loginHandler(formatter *render.Render) http.HandlerFunc{
 		formatter.JSON(w, http.StatusOK, "false")
 		}
 		if err3 == nil{
-			formatter.JSON(w, http.StatusOK, "true")	
+			formatter.JSON(w, http.StatusOK, result)	
 		}
 
 		

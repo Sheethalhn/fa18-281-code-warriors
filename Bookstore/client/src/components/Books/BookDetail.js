@@ -3,6 +3,7 @@ import * as API from '../../api/BookAPI';
 import Header from '../Header/Header';
 import './books.css';
 import { Button, Modal } from 'react-bootstrap';
+import * as ViewCartAPI from '../../api/ViewCartAPI';
 
 class BookDetail extends Component {
 
@@ -33,7 +34,20 @@ class BookDetail extends Component {
     }
 
     handleShow(book) {
-        this.setState({ show: true });
+        let bookList = [];
+        let payloadJson = {};
+        let bookJSON = {};
+        bookJSON.bookId = book.bookId;
+        bookJSON.bookCount = 1;
+        bookList.push(bookJSON);
+        payloadJson.books = bookList;
+        ViewCartAPI.addBookToCart(localStorage.getItem('userId'),payloadJson)
+            .then((resultData) => {
+                this.setState({
+                    show: true,
+                    bookName: book.bookName
+                });
+            });
     }
 
     render() {
