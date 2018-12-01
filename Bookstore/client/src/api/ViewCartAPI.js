@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const api = 'http://localhost:5000'
+const api = 'http://localhost:3000'
 
 // View cart
 export const viewCart = (userid) =>

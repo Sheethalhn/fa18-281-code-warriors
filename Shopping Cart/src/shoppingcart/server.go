@@ -54,6 +54,7 @@ func pingHandler(formatter *render.Render) http.HandlerFunc {
 // API Fetch Shopping Cart Handler
 func shoppingCartHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
+		setDefaultHeaders(w)
 		params := mux.Vars(req)
 		var userid string = params["userid"]
 		fmt.Println("userid", userid )
@@ -86,6 +87,7 @@ func shoppingCartHandler(formatter *render.Render) http.HandlerFunc {
 // API Add Shopping Cart
 func shoppingCartAddHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
+		setDefaultHeaders(w)	
 		params := mux.Vars(req)
 		var userid string = params["userid"]
 		fmt.Println("userid", userid )
@@ -111,6 +113,7 @@ func shoppingCartAddHandler(formatter *render.Render) http.HandlerFunc {
 // API Update Shopping Cart
 func shoppingCartUpdateHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
+		setDefaultHeaders(w)	
 		params := mux.Vars(req)
 		var userid string = params["userid"]
 		var newCart Cart
@@ -138,6 +141,7 @@ func shoppingCartUpdateHandler(formatter *render.Render) http.HandlerFunc {
 // API Remove Cart Handler
 func shoppingCartRemoveHandler(formatter *render.Render) http.HandlerFunc {
   return func(w http.ResponseWriter, req *http.Request) {
+	setDefaultHeaders(w)	
 	params := mux.Vars(req)
 	var userid string = params["userid"]
 	var clearBooks Books
@@ -161,6 +165,7 @@ func shoppingCartRemoveHandler(formatter *render.Render) http.HandlerFunc {
 // API Add Book Shopping Cart
 func shoppingCartAddBookHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
+		setDefaultHeaders(w)	
 		params := mux.Vars(req)
 		var userid string = params["userid"]
 		var newCart Cart
@@ -186,4 +191,13 @@ func shoppingCartAddBookHandler(formatter *render.Render) http.HandlerFunc {
 			c.Update(bson.M{"userid": userid}, bson.M{"$push": bson.M{"books": cartItems[0]}})			
 		}
 	  }
+	}
+
+	func setDefaultHeaders(w http.ResponseWriter) {
+		w.Header().Set("Access-Control-Allow-Origin", "*")
+		w.Header().Set("Access-Control-Allow-Methods", "POST, GET, OPTIONS, PUT, DELETE")
+		w.Header().Set("Access-Control-Allow-Headers", "Accept, Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization")
+		w.Header().Set("Cache-Control", "no-store, no-cache, must-revalidate, post-check=0, pre-check=0")
+		w.Header().Set("Content-Type", "application/json; charset=UTF-8")
+		w.Header().Set("Vary", "Accept-Encoding")
 	}
