@@ -6,6 +6,7 @@ import ViewBooks from './Books/ViewBooks';
 import BookDetail from './Books/BookDetail';
 import Login from './Login/Login'
 import Signup from './Login/Signup'
+import Payment from './Payment/payment'
 
 class RoutesComponent extends Component{
 
@@ -30,6 +31,7 @@ class RoutesComponent extends Component{
                 <Route exact path="/bookdetail/:bookId" component={BookDetail}/>
                 <Route path="/login" component={Login}/>
                 <Route path="/signup" component={Signup}/>
+                <Route path="/payment" component={Payment}/>
             </div>
         );
     }
