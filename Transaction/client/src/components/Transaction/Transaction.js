@@ -1,5 +1,4 @@
 import React, {Component} from 'react';
-import { Link } from 'react-router-dom';
 import Header from '../Header/Header';
 import axios from 'axios'
 
@@ -35,7 +34,14 @@ class Transaction extends Component{
 
                     <p style={{ color: "white"}}>Recent Transactions</p> <br />
                     {this.state.transactions.map((transaction) => (
-                        <div key={transaction.id} >{transaction.id}</div>
+                        <div key={transaction.id} >
+                            {transaction.id}<br/>
+                            Books: {transaction.books.map((book) => (
+                            <div key={book.id} >
+                                {book.bookid}<br/>
+                            </div>
+                            ))}
+                        </div>
                     ))}
 
 
