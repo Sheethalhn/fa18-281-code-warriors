@@ -9,6 +9,7 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/unrolled/render"
 	"gopkg.in/mgo.v2"
+	"github.com/rs/cors"
 	//"gopkg.in/mgo.v2/bson"
     	
 )
@@ -34,10 +35,15 @@ func NewServer() *negroni.Negroni {
 	//mongodb_server = os.Getenv("MONGO_SERVER")
 	//mongodb_database = os.Getenv("MONGO_DB")
 	//mongodb_collection = os.Getenv("MONGO_COLLECTION")
-	
+	corsObj := cors.New(cors.Options{
+        AllowedOrigins: []string{"*"},
+        AllowedMethods: []string{"POST", "GET", "OPTIONS", "PUT", "DELETE"},
+        AllowedHeaders: []string{"Accept", "content-type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"},
+    })
 	n := negroni.Classic()
 	mx := mux.NewRouter()
 	initRoutes(mx, formatter)
+	n.Use(corsObj)
 	n.UseHandler(mx)
 	return n
 }

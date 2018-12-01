@@ -19,12 +19,7 @@ class Login extends Component{
 
     handleLogin = (data) => {
 
-        var config = {
-            headers: {'Access-Control-Allow-Origin': '*',
-                'Accept': 'application/json'
-            }
-        };
-        axios.post('http://localhost:3000/login',data,config).then((response) => {
+        axios.post('http://localhost:3000/login',data).then((response) => {
             console.log(response);
             if(response.data == "true"){
                 this.setState({
