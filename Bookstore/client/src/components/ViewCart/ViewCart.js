@@ -65,9 +65,15 @@ class ViewCart extends Component{
         }
         APIINVENTORY.viewInventory(checkbook).then(resultData => {
             if(resultData.length === 0){
-                this.setState ({
-                    inventoryclear : true
-                })
+                this.props.history.push({
+                    pathname : "/payment",
+                    state : {
+                        checkbook : checkbook
+                    }
+                });
+                // this.setState ({
+                //     inventoryclear : true
+                // })
             } else {
                 const getAlert = () => (
                     <SweetAlert 
@@ -218,22 +224,23 @@ class ViewCart extends Component{
     }
     
     render(){
-        let redirectVar = null;
-        if( this.state.inventoryclear ){
-            redirectVar = <Redirect to= "/payment"/>
-        }
+        // let redirectVar = null;
+        // if( this.state.inventoryclear ){
+        //     redirectVar = <Redirect to= "/payment"/>
+        // }
         return(
          <div>
-             {redirectVar}
+             {/* {redirectVar} */}
             <Header/>
-            <section className="bg-title-page p-t-40 p-b-50 flex-col-c-m" style= {{backgroundImage: "url(images/heading-pages-01.jpg)"}}>
+            <section className="bg-title-page p-t-40 p-b-50 flex-col-c-m" style= {{backgroundImage: "url(images/cart.jpg)"}}>
                 <h2 className="l-text2 t-center">
                     Cart
                 </h2>
             </section>
             <section className="cart bgwhite p-t-70 p-b-100">
-                <div className="container">
-                    <div className="container-table-cart pos-relative">
+                <div className="container ">
+                    <div className="container-table-cart pos-relative" style = {{borderLeft: "1px solid #e6e6e6" ,
+    borderRight: "1px solid #e6e6e6", borderTop: "1px solid #e6e6e6"}}>
                         <div className="wrap-table-shopping-cart bgwhite">
                             <table className="table-shopping-cart">
                             <tbody>
@@ -255,14 +262,14 @@ class ViewCart extends Component{
                             <button className="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4" data-toggle="modal" data-target="#editmodal">
                                 Edit Cart
                             </button>
-                            <div className="modal fade modal-xl" id="editmodal" tabIndex="-1" role="dialog" aria-labelledby="modallabel" aria-hidden="true"  style = {{marginTop : "40px", marginLeft : "50px"}}>
-                                <div className="modal-dialog modal-dialog-centered modal-xl">
+                            <div className="modal fade modal-xl" id="editmodal" tabIndex="-1" role="dialog" aria-labelledby="modallabel" aria-hidden="true"  style = {{marginTop : "100px", marginLeft : "100px"}}>
+                                <div className="modal-dialog modal-dialog-centered modal-xl" style = {{width : "1200px"}}>
                                     <div className="modal-content">
                                         <div className="modal-header">
                                             <h5 className="m-text20 p-b-24" id="modallabel">Edit Cart</h5>
-                                            <button type="button" className="close" data-dismiss="modal" onClick = {this.resetCart} aria-label="Close">
+                                            {/* <button type="button" className="close" data-dismiss="modal" onClick = {this.resetCart} aria-label="Close">
                                             &times;
-                                            </button>
+                                            </button> */}
                                         </div>
                                         <div className="modal-body">
                                         <table className="table-shopping-cart">
