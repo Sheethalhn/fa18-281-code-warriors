@@ -1,0 +1,94 @@
+
+
+.outerBody{
+    background-color:white; 
+    overflow: -webkit-paged-y;
+}
+
+.creditCardForm {
+    max-width: 630px;
+    /* background: radial-gradient(closest-side at 50% 135%,#2c2c2c 0,#161616 100%); */
+    padding: 5px;
+    overflow: auto;
+    position:relative;
+    top:10px;  
+    background: white; 
+    border-style: solid;
+    border-color:#3c3c3d;
+}
+.creditCardForm label {
+    width: 100%;
+    margin-bottom: 10px;
+    color:Black;
+}
+.creditCardForm .heading h1 {
+    text-align: center;
+    color: Black;
+    font-size: 28px;
+    font-weight: 700;
+    
+}
+.creditCardForm .payment {
+    float: left;
+    font-size: 18px;
+    padding: 10px 25px;
+    position: relative;
+}
+.creditCardForm .payment .form-group {
+    float: left;
+    margin-bottom: 15px;
+
+}
+.creditCardForm .payment .form-control  {
+    line-height: 40px;
+    height: auto;
+    padding: 0 16px;
+}
+.creditCardForm .owner {
+    width: 63%;
+    margin-right: 10px;
+    text-align: left;
+}
+.creditCardForm .CVV {
+    width: 35%;
+    text-align: left;
+}
+.creditCardForm #card-number-field {
+    width: 100%;
+    text-align: left;
+}
+.creditCardForm #expiration-date {
+    width: 50%;
+    text-align: left;
+}
+.creditCardForm #credit_cards {
+    width: 50%;
+    margin-top: 30px;
+    text-align: right;
+}
+.creditCardForm #pay-now {
+    width: 100%;
+}
+.creditCardForm .payment .btnpayment {
+    width: 40%;
+    margin :15px;
+    border-radius: 23px;
+    background-color: #222222;
+    font-family: Montserrat-Regular;
+    font-size: 15px;
+    color: white;
+    text-transform: uppercase;
+}
+.creditCardForm .payment select {
+    padding: 10px;
+    margin-right: 15px;
+    font-size: 15px;
+}
+
+
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button { 
+  -webkit-appearance: none; 
+  margin: 0; 
+}
