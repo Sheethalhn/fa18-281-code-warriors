@@ -65,9 +65,15 @@ class ViewCart extends Component{
         }
         APIINVENTORY.viewInventory(checkbook).then(resultData => {
             if(resultData.length === 0){
-                this.setState ({
-                    inventoryclear : true
-                })
+                this.props.history.push({
+                    pathname : "/payment",
+                    state : {
+                        checkbook : checkbook
+                    }
+                });
+                // this.setState ({
+                //     inventoryclear : true
+                // })
             } else {
                 const getAlert = () => (
                     <SweetAlert 
@@ -218,13 +224,13 @@ class ViewCart extends Component{
     }
     
     render(){
-        let redirectVar = null;
-        if( this.state.inventoryclear ){
-            redirectVar = <Redirect to= "/payment"/>
-        }
+        // let redirectVar = null;
+        // if( this.state.inventoryclear ){
+        //     redirectVar = <Redirect to= "/payment"/>
+        // }
         return(
          <div>
-             {redirectVar}
+             {/* {redirectVar} */}
             <Header/>
             <section className="bg-title-page p-t-40 p-b-50 flex-col-c-m" style= {{backgroundImage: "url(images/heading-pages-01.jpg)"}}>
                 <h2 className="l-text2 t-center">
