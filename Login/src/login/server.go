@@ -44,7 +44,7 @@ func NewServer() *negroni.Negroni {
 
 // API Routes
 func initRoutes(mx *mux.Router, formatter *render.Render) {
-	mx.HandleFunc("/login", loginHandler(formatter)).Methods("GET")
+	mx.HandleFunc("/login", loginHandler(formatter)).Methods("POST")
 	mx.HandleFunc("/signup", signupHandler(formatter)).Methods("POST")
 	
 }
@@ -118,14 +118,14 @@ func signupHandler(formatter *render.Render) http.HandlerFunc{
 func loginHandler(formatter *render.Render) http.HandlerFunc{
 	return func(w http.ResponseWriter, req *http.Request) {	
 		setDefaultHeaders(w)	
-		session, err := mgo.Dial(mongodb_server)
-		if err != nil {
-			panic(err)
-			return
-		}
-		defer session.Close()
-		session.SetMode(mgo.Monotonic, true)
-		c := session.DB(mongodb_database).C(mongodb_collection)
+			session, err := mgo.Dial(mongodb_server)
+			if err != nil {
+				panic(err)
+				return
+			}
+			defer session.Close()
+			session.SetMode(mgo.Monotonic, true)
+			c := session.DB(mongodb_database).C(mongodb_collection)
 		//h := session.DB(mongodb_database).C(mongodb_collection1)
 		// 	var books []Books
 		// 	err = c.Find(bson.M{}).All(&books)
