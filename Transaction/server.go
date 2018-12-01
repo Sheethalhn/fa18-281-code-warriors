@@ -70,7 +70,7 @@ func transactionCreateHandler(formatter *render.Render) http.HandlerFunc{
 		tempbooks:=transaction.MyBooks
 
 		tempid := bson.NewObjectId()
-		err1 := c.Insert(&Transaction{ID: tempid,MyBooks:tempbooks})
+		err1 := c.Insert(&Transaction{ID: tempid,UserID:transaction.UserID,MyBooks:tempbooks,TotalAmt:transaction.TotalAmt})
 
 		if err1 != nil {
 			panic(err1)

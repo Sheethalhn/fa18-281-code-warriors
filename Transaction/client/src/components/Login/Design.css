@@ -1,0 +1,43 @@
+.login-box{
+  height: 400px;
+    width: 500px;
+  background-color: #3c3c3d;
+  margin-top: 5%;
+  margin-left: 35%;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+
+}
+
+.signup-box{
+  height: 575px;
+  width: 500px;
+  background-color: #3c3c3d;
+  margin-top: 2%;
+  margin-left: 35%;
+  box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+
+}
+
+
+.book-style{
+  margin-top: 2%;
+  height: 100px;
+  width: 100%;
+  margin-bottom: 25px;
+}
+
+.form-body{
+   margin-top: 0px;
+
+}
+
+.form-element{
+  margin-bottom: 25px;
+  width: 250px
+}
+
+.button-design{
+  background-color: #0000FF;
+  width: 250px;
+  color: white;
+}
