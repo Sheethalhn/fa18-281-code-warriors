@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import SweetAlert from 'react-bootstrap-sweetalert';
 import './payment.css';
 import amexlogo from './amex.jpg';
 import masterlogo from './mastercard.jpg';
@@ -17,28 +18,48 @@ class Payment extends Component {
             name: '',
             expiration: '',
             cvv: '',
-            submitted: false
+            submitted: false,
+            alert : null,
+            checkbook: this.props.location.state.checkbook
+
         };
         this.handleSubmit = this.handleSubmit.bind(this);
         this.handleCancel = this.handleCancel.bind(this);
-        
-
+        this.cancelAlert = this.cancelAlert.bind(this)
     }
 
     handleSubmit(e) {
         e.preventDefault();
         this.setState({ submitted: true });
         if (this.state.card_number !== undefined && this.state.card_number !== "" && this.state.name !== undefined && this.state.name !== ""  && this.state.cvv !== undefined && this.state.cvv !== "" ) {
-            let requestData ={};
-            API.viewInventory(requestData)
-                .then((resultData) => {
-                    this.props.history.push("/home");
-                    console.log("Payment is done");
-                }).catch(error => {
-                    console.log("error :", error);
-                    this.notify(error.message);
-                }); 
+            API.viewInventory(this.state.checkbook).then(resultData => {
+                if(resultData.length === 0){
+                    API.updateInventory(this.state.checkbook).then(resultData =>{
+                    })
+                } else {
+                    const getAlert = () => (
+                        <SweetAlert 
+                            warning
+                            showCancel
+                            confirmBtnBsStyle="danger"
+                            cancelBtnBsStyle="default"
+                            title="Some Books are not available"
+                            onConfirm={this.cancelAlert}>
+                            {resultData}
+                        </SweetAlert>
+                    );
+                    this.setState({
+                      alert: getAlert(),
+                    })
+                }
+            })
+            
         } 
+    }
+    cancelAlert = () => {
+        this.setState({
+            alert: null
+        });
     }
     handleCancel(){
         this.props.history.push("/books");
@@ -133,7 +154,7 @@ class Payment extends Component {
                                     <img src={amexlogo} id="amex" />
                                 </div>
                                 <div className="form-group" id="pay-now">
-                                    <button type="submit" className="btn btnpayment" id="confirm-purchase">Pay Now</button>
+                                    <button type="submit" className="btn btnpayment" id="confirm-purchase">Pay Now</button>{this.state.alert}
                                     <button type="button" onClick ={this.handleCancel} className="btn btnpayment" id="cancel-purchase">Cancel</button>
                                 </div>
                             </form>
