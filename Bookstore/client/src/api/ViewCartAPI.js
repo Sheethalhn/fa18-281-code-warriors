@@ -22,7 +22,7 @@ export const addNewCart = (userid) =>
 
 // Add book to cart when a user clicks on 'Add to Cart'
 export const addBookToCart = (userid, data) =>
-    axios.post(api+`/updatecart/${userid}`, data)
+    axios.post(api+`/addbooktocart/${userid}`, data)
         .then(response => {
             return response;
         }).catch(error => {
