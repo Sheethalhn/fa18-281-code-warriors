@@ -10,7 +10,6 @@ import * as API from '../../api/InventoryAPI';
 
 class Payment extends Component {
 
-
     constructor(props) {
         super(props);
         this.state = {
@@ -20,7 +19,19 @@ class Payment extends Component {
             cvv: '',
             submitted: false,
             alert : null,
-            checkbook: this.props.location.state.checkbook
+            checkbook: {
+                "books" :
+                [{
+                    "bookId" : "5bf7a618746498683a9c4561",
+                    "bookCount":10
+                
+                },{	"bookId" : "5bf7a618746498683a9c4563",
+                    "bookCount" :1
+                    }
+                ]
+                }
+            //checkbook: this.props.location.state.checkbook ? this.props.location.state.checkbook : [{}]
+            //checkbook: this.props.location.state.checkbook
 
         };
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -34,9 +45,12 @@ class Payment extends Component {
         if (this.state.card_number !== undefined && this.state.card_number !== "" && this.state.name !== undefined && this.state.name !== ""  && this.state.cvv !== undefined && this.state.cvv !== "" ) {
             API.viewInventory(this.state.checkbook).then(resultData => {
                 if(resultData.length === 0){
+                    console.log(resultData);
                     API.updateInventory(this.state.checkbook).then(resultData =>{
                     })
+                    
                 } else {
+                    console.log(resultData);
                     const getAlert = () => (
                         <SweetAlert 
                             warning
@@ -48,9 +62,9 @@ class Payment extends Component {
                             {resultData}
                         </SweetAlert>
                     );
-                    this.setState({
-                      alert: getAlert(),
-                    })
+                    // this.setState({
+                    //   alert: getAlert(),
+                    // })
                 }
             })
             
