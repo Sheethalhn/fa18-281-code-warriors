@@ -23,19 +23,13 @@ class Payment extends Component {
             submitted: false,
             alert : null,
             transactionjson : [],
-            checkbook: {
-                "books" :
-                [{
-                    "bookId" : "5bf7a618746498683a9c4561",
-                    "bookCount":1
+            checkbook: this.props.location.state.checkbook
+            //     [{
+            //         "bookId" : "5bf7a618746498683a9c4561",
+            //         "bookCount":1
                 
-                },{	"bookId" : "5bf7a618746498683a9c4563",
-                    "bookCount" :1
-                    }
-                ]
-                }
-            //checkbook: this.props.location.state.checkbook ? this.props.location.state.checkbook : [{}]
-            //checkbook: this.props.location.state.checkbook
+            //     }
+            //     ]           
 
         };
         this.handleSubmit = this.handleSubmit.bind(this);
@@ -57,14 +51,14 @@ class Payment extends Component {
                 checking.push(a)
             }
             // json for transaction
-            var result = { books : checking}
+            var result = { books : checking}   
             var booksjson = []
             for(var k=0; k< rows.length; k++){
                 var a = {}
-                a.bookid = rows[k].bookid
-                a.bookname = rows[k].bookname
-                a.qty = rows[k].bookcount
-                a.price = rows[k].amount
+                a.bookid = rows[k].bookid // "5bf7a618746498683a9c4561"
+                a.bookname = rows[k].bookname   // "Mongo"
+                a.qty = rows[k].bookcount     //1
+                a.price = rows[k].amount     // 10
                 booksjson.push(a)
             }
             var payload = {userid:localStorage.getItem('userId'), books : booksjson, totalamount : this.state.totalamount }
@@ -72,16 +66,26 @@ class Payment extends Component {
             var self = this;
             API.viewInventory(result).then(resultData => {
                 if(resultData.data === null && resultData.status === 200){
-                    console.log(resultData);
                     API.updateInventory(result).then(resultData =>{
                         if(resultData.status === 200)
-                        {   console.log(resultData);
-                             TransAPI.createTransaction(self.payload).then(resultData =>{
+                        {   
+                            TransAPI.createTransaction(self.payload).then(resultData =>{
                                if(resultData.status === 200)
-                               {   console.log(resultData);
-                                    this.state.alert(resultData.data)
+                               {   
+                                   const getAlert = () => (
+                                    <SweetAlert 
+                                        warning
+                                        showCancel
+                                        confirmBtnBsStyle="danger"
+                                        cancelBtnBsStyle="default"
+                                        title="Successfull Transaction"
+                                        onConfirm={this.cancelAlert}>
+                                        {resultData.data}
+                                    </SweetAlert>
+                                );
+                                    self.setState({alert: getAlert()})
 
-                                    CartAPI.clearCart(localStorage.getItem('userId')).then(resultData =>{
+                                     CartAPI.clearCart(localStorage.getItem('userId')).then(resultData =>{
                                         if(resultData.status === 200)
                                         {
                                             this.props.history.push("/books");
@@ -105,7 +109,6 @@ class Payment extends Component {
                             cancelBtnBsStyle="default"
                             title="Some Books are not available"
                             onConfirm={this.cancelAlert}>
-                            {resultData.data}
                         </SweetAlert>
                     );
                     this.setState({
