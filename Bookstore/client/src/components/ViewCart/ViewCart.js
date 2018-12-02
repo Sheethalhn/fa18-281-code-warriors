@@ -10,7 +10,7 @@ import * as APIBOOK from '../../api/BookAPI';
 import * as APIINVENTORY from '../../api/InventoryAPI';
 
 // DUMMY VALUES
-// var booktable = [{price : 1.32, bookname: "book1"}, {price:2.45, bookname : "book2"}]
+var resultData = [{price : 1.32, bookName: "book1", bookId : "5bf7a618746498683a9c4561"}, {price:2.45, bookName : "book2",  bookId : "5bf7a618746498683a9c4563"}]
 
 function roundToTwo(num) {    
     return Math.ceil(num * 100)/100;
@@ -55,26 +55,64 @@ class ViewCart extends Component{
 
     proceedCheckout = () => {
         // API CALL TO CHECK INVENTORY  - /payment
-        var checkbook = []
-        var rows = JSON.parse(JSON.stringify(this.state.rows))
+        var checkbook = this.state.rows
+        var totalmount = this.state.totalamount
+        // var rows = JSON.parse(JSON.stringify(this.state.rows))
+        var rows = this.state.rows
+        var checking = []
         for(var k=0; k<rows.length; k++){
-            var a = []
-            a.bookid = rows[k].bookid
-            a.bookcount = rows[k].bookcount
-            checkbook.push(a)
+            var a = {}
+            a.bookId = rows[k].bookid
+            a.bookCount = rows[k].bookcount
+            checking.push(a)
         }
-        APIINVENTORY.viewInventory(checkbook).then(resultData => {
-            if(resultData.length === 0){
+
+        // APIINVENTORY.viewInventory(checkbook).then(resultData => {
+        //     if(resultData.length === 0){
+        //         this.props.history.push({
+        //             pathname : "/payment",
+        //             state : {
+        //                 checkbook : checkbook
+        //             }
+        //         });
+        //         // this.setState ({
+        //         //     inventoryclear : true
+        //         // })
+        //     } else {
+        //         const getAlert = () => (
+        //             <SweetAlert 
+        //                 warning
+        //                 showCancel
+        //                 confirmBtnBsStyle="danger"
+        //                 cancelBtnBsStyle="default"
+        //                 title="Some Books are not available"
+        //                 onConfirm={this.cancelAlert}>
+        //                 {resultData}
+        //             </SweetAlert>
+        //         );
+        //         this.setState({
+        //           alert: getAlert(),
+        //         })
+        //     }
+        // })
+        var result = { "books" : checking }
+        console.log(typeof(result))
+        console.log(result)
+        APIINVENTORY.viewInventory(result).then(resultData => {
+            console.log(resultData)
+            if(resultData.data.length === 0 || resultData.data === null){
                 this.props.history.push({
                     pathname : "/payment",
                     state : {
-                        checkbook : checkbook
+                        checkbook : checkbook,
+                        totalmount : totalmount
                     }
                 });
                 // this.setState ({
                 //     inventoryclear : true
                 // })
             } else {
+                console.log(resultData.data)
                 const getAlert = () => (
                     <SweetAlert 
                         warning
@@ -83,13 +121,13 @@ class ViewCart extends Component{
                         cancelBtnBsStyle="default"
                         title="Some Books are not available"
                         onConfirm={this.cancelAlert}>
-                        {resultData}
+                        {resultData.data}
                     </SweetAlert>
                 );
                 this.setState({
                   alert: getAlert(),
                 })
-            }
+           }
         })
     }
 
@@ -100,13 +138,12 @@ class ViewCart extends Component{
     }
 
     updateCart () {
-        var books = this.state.updatebooks
+        var books = JSON.parse(JSON.stringify(this.state.updatebooks))
         var table = JSON.parse(JSON.stringify(this.state.bookstable))
-        console.log(table)
         table.books = []
         var totalamount = 0;
         for(var i=0; i<books.length;i++){
-            var a = []
+            var a = {}
             books[i].amount = roundToTwo(books[i].bookcount * books[i].price);
             a.bookid = books[i].bookid
             a.bookcount = books[i].bookcount
@@ -119,7 +156,8 @@ class ViewCart extends Component{
             rows : JSON.parse(JSON.stringify(books))
         })
         var userid = 1; //Dummy value
-        API.updateCart(userid, table)
+        var result = {"books": table.books }
+        API.updateCart(userid, result)
         .then(response => {
             console.log("Status Code : ",response);
             if(response.status === 200){  
@@ -158,7 +196,7 @@ class ViewCart extends Component{
             })
           } else {
             return <div className="">
-            <h4> Cart is empty</h4> </div>
+            <h4 className="m-text20 p-b-24"> Cart is empty</h4> </div>
           }
         }
     } 
@@ -186,7 +224,7 @@ class ViewCart extends Component{
                 })
               } else {
                 return <div className="">
-                <h4> Cart is empty</h4> </div>
+                <h4 className="m-text20 p-b-24"> Cart is empty</h4> </div>
               }
             }
         } 
@@ -201,24 +239,48 @@ class ViewCart extends Component{
             console.log("Status Code : ",response);
             if(response.status === 200){  
                 var books = JSON.parse(JSON.stringify(response.data.books))
-                var totalamount = 0;
-                for(var i=0; i<books.length;i++){
-                    //TODO API CALL TO BOOKS TO GET PRICE
-                    APIBOOK.getBookByIds(books[i].bookid).then(resultData => {
-                        books[i].price = resultData.data[0].price
-                        books[i].bookname = resultData.data[0].bookName
-                        books[i].amount = roundToTwo(books[i].bookcount * books[i].price);
-                        totalamount += books[i].amount;
+                this.books=books
+                this.response = response.data
+                let bookIds = books.map(a => a.bookid);
+                this.totalamount = 0;
+                var self = this;
+                // APIBOOK.getBookByIds(bookIds).then(resultData => {
+                //     for(var i = 0; i < self.books.length; i++){
+                //         let bookObj = resultData.data.find(obj => obj.bookId == self.books[i].bookid);
+                //         self.books[i].bookimg = bookObj.bookImg
+                //         self.books[i].bookname = bookObj.bookName
+                //         self.books[i].price = bookObj.price
+                //         self.books[i].amount = roundToTwo(self.books[i].bookcount * self.books[i].price);
+                //         self.totalamount += self.books[i].amount;
+                //     }
+                //     console.log(self.totalamount)
+                //     var books1 = JSON.parse(JSON.stringify(self.books))
+                //      this.setState ({
+                //         bookstable : self.response,
+                //         totalamount : self.totalamount,
+                //         rows : books,
+                //         updatebooks : books1,
+                //         isLoading : false
+                //     })
+                // }) 
+
+                    for(var i = 0; i < self.books.length; i++){
+                        let bookObj = resultData.find(obj => obj.bookId == self.books[i].bookid);
+                        // self.books[i].bookimg = bookObj.bookImg
+                        self.books[i].bookname = bookObj.bookName
+                        self.books[i].price = bookObj.price
+                        self.books[i].amount = roundToTwo(self.books[i].bookcount * self.books[i].price);
+                        self.totalamount += self.books[i].amount;
+                    }
+                    console.log(self.totalamount)
+                    var books1 = JSON.parse(JSON.stringify(self.books))
+                     this.setState ({
+                        bookstable : self.response,
+                        totalamount : self.totalamount,
+                        rows : self.books,
+                        updatebooks : books1,
+                        isLoading : false
                     })
-                }
-                var books1 = JSON.parse(JSON.stringify(books))
-                this.setState ({
-                    bookstable : response.data,
-                    totalamount : totalamount,
-                    rows : books,
-                    updatebooks : books1,
-                    isLoading : false
-                })
             }
         });
     }
