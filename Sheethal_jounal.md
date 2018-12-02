@@ -35,4 +35,16 @@ Agile Core value -Simplicity
 
 While developing Go API we are trying to keep it as simple as possible since its our first attempt with GO and microservice architecture.Decided on simple UI design with minimalistic features required.Goal is to make app work end to end before diving into depth of concurrency in GO
 
+## Week 4
+
+1.Completed  Inventory Go API development with /viewinventory and /updateinventory routes to check if books are available in required quantity and if available update the count and create successfull transaction.
+2.Completed payment page development with API calls
+3.Did Unit testing with integrating with front end code
+4.Did  integration testing with team to make sure our micro services are working as expected
+5.Need to focus more on deployment and scaling part in the last week of project submission
+
+Agile Core value -Simplicity
+
+As decided we have built a simple yet complete SAAS app successfully which is working as expected on integration.Though there were few issues while integrating we could change it without much effort since team kept their API's simple to understand and extend.
+    
 

@@ -16,3 +16,20 @@
 4. Setup an AMI for Ec2 with Ubuntu machine and MongoDB installed. Boot up 5 different Ec2's with the AMI.
 5. Set a common VPC for all the Ec2 instances.
 6. MongoDB configuration for replicationset. 
+
+## Week 3
+
+### Understanding the Mgo package of Go and how it picks the primary.
+1. Research on the mgo package and configuration with GO.
+2. Dial and DialInfo methods for Mongo Cluster replica set.
+3. Setup Mongo Cluster and created sample Go API to check this mgo setting.
+4. Created Actual GO api which is Book APIs and configured this mgo package
+
+## Week 4
+
+### Created Frontend For Book API
+1. As per microservices architecture, developed the frontend for displaying books.
+2. Created a page for displaying book details based on the selected books.
+3. Integrated all the GO apis to get the dynamic content on the webpage.
+4. Calling my own books Mongo cluster for fetching the records.
+
