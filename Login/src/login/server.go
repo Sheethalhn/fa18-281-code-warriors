@@ -10,32 +10,19 @@ import (
 	"github.com/unrolled/render"
 	"gopkg.in/mgo.v2"
 	"github.com/rs/cors"
-	//"gopkg.in/mgo.v2/bson"
+	"gopkg.in/mgo.v2/bson"
     	
 )
 
 var mongodb_server = "mongodb://admin:admin12345@ds117834.mlab.com:17834/bookstore"
 var mongodb_database = "bookstore"
 var mongodb_collection = "users"
-var mongodb_collection1 = "users1"
 
-
-//var mongodb_server string
-
-//var mongodb_database string
-
-//var mongodb_collection string
-
-// NewServer configures and returns a Server.
 func NewServer() *negroni.Negroni {
 	formatter := render.New(render.Options{
 		IndentJSON: true,
 	})
-	
-	//mongodb_server = os.Getenv("MONGO_SERVER")
-	//mongodb_database = os.Getenv("MONGO_DB")
-	//mongodb_collection = os.Getenv("MONGO_COLLECTION")
-	corsObj := cors.New(cors.Options{
+		corsObj := cors.New(cors.Options{
         AllowedOrigins: []string{"*"},
         AllowedMethods: []string{"POST", "GET", "OPTIONS", "PUT", "DELETE"},
         AllowedHeaders: []string{"Accept", "content-type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"},
@@ -58,6 +45,7 @@ func initRoutes(mx *mux.Router, formatter *render.Render) {
 
 func signupHandler(formatter *render.Render) http.HandlerFunc{
 	return func(w http.ResponseWriter, req *http.Request) {	
+		
 		setDefaultHeaders(w)	
 		session, err := mgo.Dial(mongodb_server)
 		if err != nil {
@@ -67,15 +55,13 @@ func signupHandler(formatter *render.Render) http.HandlerFunc{
 		defer session.Close()
 		session.SetMode(mgo.Monotonic, true)
 		c := session.DB(mongodb_database).C(mongodb_collection)
-		h := session.DB(mongodb_database).C(mongodb_collection1)
+		
 		decoder := json.NewDecoder(req.Body)
-
 		var user Users
-		err2 := decoder.Decode(&user)
-		if err2 != nil {
-		panic(err2)
+		err1 := decoder.Decode(&user)
+		if err1 != nil {
+		panic(err1)
 		}
-
 		UserName := user.UserName
 		Password := user.Password
 		FirstName := user.FirstName
@@ -83,30 +69,20 @@ func signupHandler(formatter *render.Render) http.HandlerFunc{
 		fmt.Println(UserName)
 		fmt.Println(Password)
 
-		
-		
-		
-
-		count, err4 := c.Find(&Users1{UserName: UserName}).Count()
-		fmt.Println(err4)
-		if count > 0 {
+		result := Users{}
+		err3 := c.Find(bson.M{"username": UserName}).One(&result)
+		fmt.Println(err3)
+		if (result.UserName != "")  {
 			formatter.JSON(w, http.StatusOK, "false")
 		}
-		if count == 0{
+		if (result.UserName == ""){
 			
-		err1 := c.Insert(&Users{UserName: UserName, Password: Password, FirstName: FirstName, LastName: LastName})
+		err4 := c.Insert(&Users{UserName: UserName, Password: Password, FirstName: FirstName, LastName: LastName})
 
-			if err1 != nil {
-				panic(err1)
+			if err4 != nil {
+				panic(err4)
 			}
-		fmt.Println(err1)
-
-		err3 := h.Insert(&Users1{UserName: UserName})
-
-			if err3 != nil {
-				panic(err3)
-			}
-		fmt.Println(err3)
+		fmt.Println(err4)
 		
 		formatter.JSON(w, http.StatusOK, "true")
 		}
@@ -130,9 +106,9 @@ func loginHandler(formatter *render.Render) http.HandlerFunc{
 		decoder := json.NewDecoder(req.Body)
 
 		var user Users
-		err2 := decoder.Decode(&user)
-		if err2 != nil {
-		panic(err2)
+		err1 := decoder.Decode(&user)
+		if err1 != nil {
+		panic(err1)
 		}
 
 		UserName := user.UserName
@@ -142,20 +118,16 @@ func loginHandler(formatter *render.Render) http.HandlerFunc{
 
 		
 		result := Users{}
-		err3 := c.Find(&Users{UserName: UserName, Password: Password}).One(&result)
-		fmt.Println(err3)
+		err2 := c.Find(bson.M{"username": UserName}).One(&result)
+		fmt.Println(err2)
+		fmt.Println("result")
 		fmt.Println(result)
-		if err3 != nil {
-		formatter.JSON(w, http.StatusOK, "false")
-		}
-		if err3 == nil{
-			formatter.JSON(w, http.StatusOK, "true")	
-		}
-
-		
-		
-		
-
+		 if(result.Password == Password){
+		 	formatter.JSON(w, http.StatusOK, "true")
+		 }
+		 if(result.Password != Password){
+		 	formatter.JSON(w, http.StatusOK, "false")	
+		 }
 		
 	 }
 
@@ -163,7 +135,7 @@ func loginHandler(formatter *render.Render) http.HandlerFunc{
 
 func getUserHandler(formatter *render.Render) http.HandlerFunc{
 	return func(w http.ResponseWriter, req *http.Request) {	
-		setDefaultHeaders(w)	
+			setDefaultHeaders(w)	
 			session, err := mgo.Dial(mongodb_server)
 			if err != nil {
 				panic(err)
@@ -172,20 +144,13 @@ func getUserHandler(formatter *render.Render) http.HandlerFunc{
 			defer session.Close()
 			session.SetMode(mgo.Monotonic, true)
 			c := session.DB(mongodb_database).C(mongodb_collection)
-		//h := session.DB(mongodb_database).C(mongodb_collection1)
-		// 	var books []Books
-		// 	err = c.Find(bson.M{}).All(&books)
-		// 	if err != nil {
-		// 		log.Fatal(err)
-		// 	}
-		// fmt.Println("All Books are :", books)
-		// formatter.JSON(w, http.StatusOK, books)
+		
 		decoder := json.NewDecoder(req.Body)
 
 		var user Users
-		err2 := decoder.Decode(&user)
-		if err2 != nil {
-		panic(err2)
+		err1 := decoder.Decode(&user)
+		if err1 != nil {
+		panic(err1)
 		}
 
 		UserName := user.UserName
@@ -195,20 +160,16 @@ func getUserHandler(formatter *render.Render) http.HandlerFunc{
 
 		
 		result := Users{}
-		err3 := c.Find(&Users{UserName: UserName, Password: Password}).One(&result)
-		fmt.Println(err3)
+		err2 := c.Find(bson.M{"username": UserName}).One(&result)
+		fmt.Println(err2)
+		fmt.Println("result")
 		fmt.Println(result)
-		if err3 != nil {
-		formatter.JSON(w, http.StatusOK, "false")
-		}
-		if err3 == nil{
-			formatter.JSON(w, http.StatusOK, result)	
-		}
-
-		
-		
-		
-
+		 if(result.Password == Password){
+		 	formatter.JSON(w, http.StatusOK, result)
+		 }
+		 if(result.Password != Password){
+		 	formatter.JSON(w, http.StatusOK, "false")	
+		 }
 		
 	 }
 
