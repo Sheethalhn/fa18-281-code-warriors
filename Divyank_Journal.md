@@ -7,7 +7,7 @@
 2. Narrowed down database as mongodb to leverage it's CP property.
 3. Finalized ReactJS and researched about it for front-end development.
 
-Agile Core value - Feedback
+Agile Core value - Feedback <br>
 Tried to ensure that we are constantly communicating reviews of each other's work to make project better each week.
 
 ## Week 2
