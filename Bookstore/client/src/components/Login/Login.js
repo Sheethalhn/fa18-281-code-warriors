@@ -20,11 +20,13 @@ class Login extends Component{
     handleLogin = (data) => {
 
         axios.post('http://localhost:3000/login',data).then((response) => {
-            console.log(response);
+            //console.log(response);
             if(response.data == "true"){
-                this.setState({
-                    message: "Login Successfull!"
+                axios.post('http://localhost:3000/getUserById',data).then((response) => {
+                    console.log(response.data.id);
+                    localStorage.setItem('user',response.data.id);
                 })
+
             }
             else{
                 this.setState({
@@ -69,6 +71,7 @@ class Login extends Component{
                     <br /><br />
                     <p style={{ color: "white" }}>Not a Member Already? <Link to="/signup">Signup here!!</Link> </p>
                     <p style={{ color: 'white'}}>{this.state.message}</p>
+
                 </div>
 
             </div>
