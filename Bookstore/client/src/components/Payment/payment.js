@@ -6,6 +6,9 @@ import masterlogo from './mastercard.jpg';
 import visalogo from './visa.jpg';
 import Header from '../Header/Header';
 import * as API from '../../api/InventoryAPI';
+import * as TransAPI from '../../api/TransactionAPI';
+import * as CartAPI from '../../api/ViewCartAPI';
+
 
 
 class Payment extends Component {
@@ -19,11 +22,12 @@ class Payment extends Component {
             cvv: '',
             submitted: false,
             alert : null,
+            transactionjson : [],
             checkbook: {
                 "books" :
                 [{
                     "bookId" : "5bf7a618746498683a9c4561",
-                    "bookCount":10
+                    "bookCount":1
                 
                 },{	"bookId" : "5bf7a618746498683a9c4563",
                     "bookCount" :1
@@ -38,17 +42,59 @@ class Payment extends Component {
         this.handleCancel = this.handleCancel.bind(this);
         this.cancelAlert = this.cancelAlert.bind(this)
     }
+    
 
     handleSubmit(e) {
         e.preventDefault();
+        var rows = this.state.checkbook
         this.setState({ submitted: true });
         if (this.state.card_number !== undefined && this.state.card_number !== "" && this.state.name !== undefined && this.state.name !== ""  && this.state.cvv !== undefined && this.state.cvv !== "" ) {
-            API.viewInventory(this.state.checkbook).then(resultData => {
-                if(resultData.length === 0){
+            var checking = []
+            for(var k=0; k< rows.length; k++){
+                var a = {}
+                a.bookId = rows[k].bookid
+                a.bookCount = rows[k].bookcount
+                checking.push(a)
+            }
+            // json for transaction
+            var result = { books : checking}
+            var booksjson = []
+            for(var k=0; k< rows.length; k++){
+                var a = {}
+                a.bookid = rows[k].bookid
+                a.bookname = rows[k].bookname
+                a.qty = rows[k].bookcount
+                a.price = rows[k].amount
+                booksjson.push(a)
+            }
+            var payload = {userid:localStorage.getItem('userId'), books : booksjson, totalamount : this.state.totalamount }
+            this.payload = payload
+            var self = this;
+            API.viewInventory(result).then(resultData => {
+                if(resultData.data === null && resultData.status === 200){
                     console.log(resultData);
-                    API.updateInventory(this.state.checkbook).then(resultData =>{
+                    API.updateInventory(result).then(resultData =>{
+                        if(resultData.status === 200)
+                        {   console.log(resultData);
+                             TransAPI.createTransaction(self.payload).then(resultData =>{
+                               if(resultData.status === 200)
+                               {   console.log(resultData);
+                                    this.state.alert(resultData.data)
+
+                                    CartAPI.clearCart(localStorage.getItem('userId')).then(resultData =>{
+                                        if(resultData.status === 200)
+                                        {
+                                            this.props.history.push("/books");
+                                        }
+
+                                    })
+                                }
+
+                            })
+                            
+                        }
                     })
-                    
+
                 } else {
                     console.log(resultData);
                     const getAlert = () => (
@@ -59,12 +105,12 @@ class Payment extends Component {
                             cancelBtnBsStyle="default"
                             title="Some Books are not available"
                             onConfirm={this.cancelAlert}>
-                            {resultData}
+                            {resultData.data}
                         </SweetAlert>
                     );
-                    // this.setState({
-                    //   alert: getAlert(),
-                    // })
+                    this.setState({
+                      alert: getAlert(),
+                    })
                 }
             })
             
