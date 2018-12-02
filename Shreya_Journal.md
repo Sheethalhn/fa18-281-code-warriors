@@ -25,7 +25,7 @@
 3. Setup Mongo Cluster and created sample Go API to check this mgo setting.
 4. Created Actual GO api which is Book APIs and configured this mgo package
 
-## Week 3
+## Week 4
 
 ### Created Frontend For Book API
 1. As per microservices architecture, developed the frontend for displaying books.
