@@ -134,10 +134,10 @@ class ViewBooks extends Component {
                     {afterFiveNode}
                 </div>
                 {this.state.bookList.length === 0 && <h4>We're Sorry! No Books Available!</h4>}
-                <div>
                     <Modal
                         aria-labelledby="contained-modal-title-vcenter"
                         centered
+                        className="modal-dialog-centered"
                         show={this.state.show}
                         onHide={this.handleClose}>
                         <Modal.Header closeButton>
@@ -150,7 +150,6 @@ class ViewBooks extends Component {
                         </Button>
                         </Modal.Footer>
                     </Modal>
-                </div>
             </div>
         )
     }

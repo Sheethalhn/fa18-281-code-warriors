@@ -4,5 +4,5 @@ RUN mkdir /app
 ADD . /app/ 
 WORKDIR /app 
 ENV GOPATH /app
-RUN cd /app ; go install bookgoapi
-CMD ["/app/bin/bookgoapi"]
+RUN cd /app ; go install books
+CMD ["/app/bin/books"]

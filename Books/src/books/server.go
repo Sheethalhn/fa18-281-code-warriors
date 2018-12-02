@@ -14,15 +14,9 @@ import (
 	"github.com/rs/cors"
 )
 
-var mongodb_server = "localhost"
+var mongodb_server = "mongodb://admin:cmpe281@10.0.1.61:27017,10.0.1.152:27017,10.0.1.107:27017,10.0.3.243:27017,10.0.3.108:27017"
 var mongodb_database = "Bookstore"
 var mongodb_collection = "books"
-
-//var mongodb_server string
-
-//var mongodb_database string
-
-//var mongodb_collection string
 
 // NewServer configures and returns a Server.
 func NewServer() *negroni.Negroni {
@@ -30,9 +24,6 @@ func NewServer() *negroni.Negroni {
 		IndentJSON: true,
 	})
 	
-	//mongodb_server = os.Getenv("MONGO_SERVER")
-	//mongodb_database = os.Getenv("MONGO_DB")
-	//mongodb_collection = os.Getenv("MONGO_COLLECTION")
 	corsObj := cors.New(cors.Options{
         AllowedOrigins: []string{"*"},
         AllowedMethods: []string{"POST", "GET", "OPTIONS", "PUT", "DELETE"},

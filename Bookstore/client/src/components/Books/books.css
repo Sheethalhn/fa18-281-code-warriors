@@ -10,3 +10,8 @@
     width: 210px;
     height: 320px;
 }
+
+.modal-open .modal{
+    display: flex!important;
+    align-items: center!important;
+}
