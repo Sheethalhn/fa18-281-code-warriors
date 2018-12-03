@@ -14,11 +14,12 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/unrolled/render"
 	"gopkg.in/mgo.v2"
-    "gopkg.in/mgo.v2/bson"
+	"gopkg.in/mgo.v2/bson"
+	"github.com/rs/cors"
 )
 
 // MongoDB Config
-var mongodb_server = "localhost"
+var mongodb_server = "mongodb://admin:cmpe281@10.0.2.236:27017,10.0.2.184:27017,10.0.2.79:27017,10.0.1.225:27017,10.0.1.28:27017"
 var mongodb_database = "Bookstore"
 var mongodb_collection = "shoppingcart"
 
@@ -27,9 +28,15 @@ func NewServer() *negroni.Negroni {
 	formatter := render.New(render.Options{
 		IndentJSON: true,
 	})
+	corsObj := cors.New(cors.Options{
+        AllowedOrigins: []string{"*"},
+        AllowedMethods: []string{"POST", "GET", "OPTIONS", "PUT", "DELETE"},
+        AllowedHeaders: []string{"Accept", "content-type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"},
+    })
 	n := negroni.Classic()
 	mx := mux.NewRouter()
 	initRoutes(mx, formatter)
+	n.Use(corsObj)
 	n.UseHandler(mx)
 	return n
 }
@@ -47,6 +54,7 @@ func initRoutes(mx *mux.Router, formatter *render.Render) {
 // API Ping Handler
 func pingHandler(formatter *render.Render) http.HandlerFunc {
 	return func(w http.ResponseWriter, req *http.Request) {
+		setDefaultHeaders(w)
 		formatter.JSON(w, http.StatusOK, struct{ Test string }{"API version 1.0 alive!"})
 	}
 }

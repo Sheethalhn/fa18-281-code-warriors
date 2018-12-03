@@ -1,7 +1,7 @@
 package main
 
 import (
-	//"fmt"
+	"fmt"
 	"net/http"
 	"encoding/json"
 	//"log"
@@ -10,9 +10,10 @@ import (
 	"github.com/unrolled/render"
 	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
+	"github.com/rs/cors"
 )
 
-var mongodb_server = "localhost"
+var mongodb_server = ""mongodb://admin:*****@10.0.1.78:27017,10.0.1.80:27017,10.0.1.53:27017,10.0.1.57:27017,10.0.1.102:27017"
 var mongodb_database = "bookstore"
 var mongodb_collection = "transaction"
 
@@ -33,9 +34,17 @@ func NewServer() *negroni.Negroni {
 	//mongodb_database = os.Getenv("MONGO_DB")
 	//mongodb_collection = os.Getenv("MONGO_COLLECTION")
 	
+	corsObj := cors.New(cors.Options{
+        AllowedOrigins: []string{"*"},
+        AllowedMethods: []string{"POST", "GET", "OPTIONS", "PUT", "DELETE"},
+        AllowedHeaders: []string{"Accept", "content-type", "Content-Length", "Accept-Encoding", "X-CSRF-Token", "Authorization"},
+    })
+	
+	
 	n := negroni.Classic()
 	mx := mux.NewRouter()
 	initRoutes(mx, formatter)
+	n.Use(corsObj)
 	n.UseHandler(mx)
 	return n
 }
@@ -46,6 +55,7 @@ func initRoutes(mx *mux.Router, formatter *render.Render) {
 	mx.HandleFunc("/getAllTransactionByUser/{id}", transactionHandler(formatter)).Methods("GET")
 	
 }
+
 
 func transactionCreateHandler(formatter *render.Render) http.HandlerFunc{
 	return func(w http.ResponseWriter, req *http.Request) {	
@@ -68,7 +78,7 @@ func transactionCreateHandler(formatter *render.Render) http.HandlerFunc{
 		}
 		
 		tempbooks:=transaction.MyBooks
-
+		
 		tempid := bson.NewObjectId()
 		err1 := c.Insert(&Transaction{ID: tempid,UserID:transaction.UserID,MyBooks:tempbooks,TotalAmt:transaction.TotalAmt})
 
@@ -93,25 +103,25 @@ func transactionHandler(formatter *render.Render) http.HandlerFunc{
 		}
 		defer session.Close()
 		session.SetMode(mgo.Monotonic, true)
-		//c := session.DB(mongodb_database).C(mongodb_collection)
-		//h := session.DB(mongodb_database).C(mongodb_collection1)
-		// 	var books []Books
-		// 	err = c.Find(bson.M{}).All(&books)
-		// 	if err != nil {
-		// 		log.Fatal(err)
-		// 	}
-		// fmt.Println("All Books are :", books)
-		// formatter.JSON(w, http.StatusOK, books)
 		
-		//decoder := json.NewDecoder(req.Body)
+		c := session.DB(mongodb_database).C(mongodb_collection)
+		
+		params := mux.Vars(req)
+		//fmt.Println()
+		
+		
+		var transactions []Transaction
+		err3 := c.Find(bson.M{"userid": params["id"]}).All(&transactions)
+		fmt.Println(err3)
+		fmt.Println(transactions)
+		if err3 != nil {
+		formatter.JSON(w, http.StatusOK, "false")
+		}
+		if err3 == nil{
+			formatter.JSON(w, http.StatusOK, transactions)	
+		}
+		
 
-		
-
-		
-		
-		
-
-		
 	 }
 
 }
