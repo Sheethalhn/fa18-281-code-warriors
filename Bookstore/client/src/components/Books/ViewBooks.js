@@ -46,7 +46,7 @@ class ViewBooks extends Component {
         bookList.push(bookJSON);
         payloadJson.books = bookList;
         console.log("payloadJson :",payloadJson);
-        ViewCartAPI.addBookToCart(1,payloadJson)
+        ViewCartAPI.addBookToCart(localStorage.getItem('userId'),payloadJson)
             .then((resultData) => {
                 this.setState({
                     show: true,
