@@ -119,7 +119,7 @@ class ViewCart extends Component{
             totalamount : totalamount,
             rows : JSON.parse(JSON.stringify(books))
         })
-        var userid = 1; //Dummy value
+        var userid = localStorage.getItem('userId');
         var result = {"books": table.books }
         API.updateCart(userid, result)
         .then(response => {
@@ -198,7 +198,7 @@ class ViewCart extends Component{
     }
 
     componentDidMount() {
-        var userid = 1; // DUMMY VALUE
+        var userid = localStorage.getItem('userId');
         API.viewCart(userid).then(response => {
             console.log("Status Code : ",response);
             if(response.status === 200){  
