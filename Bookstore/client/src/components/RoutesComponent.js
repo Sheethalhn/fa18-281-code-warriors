@@ -7,6 +7,7 @@ import BookDetail from './Books/BookDetail';
 import Login from './Login/Login'
 import Signup from './Login/Signup'
 import Payment from './Payment/payment'
+import Transaction from './Transaction/Transaction'
 
 class RoutesComponent extends Component{
 
@@ -32,6 +33,7 @@ class RoutesComponent extends Component{
                 <Route path="/login" component={Login}/>
                 <Route path="/signup" component={Signup}/>
                 <Route path="/payment" component={Payment}/>
+				<Route path="/transaction" component={Transaction}/>
             </div>
         );
     }
