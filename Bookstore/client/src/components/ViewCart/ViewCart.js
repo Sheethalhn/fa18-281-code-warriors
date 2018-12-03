@@ -66,11 +66,9 @@ class ViewCart extends Component{
             checking.push(a)
         }
         var result = { "books" : checking }
-        console.log(typeof(result))
-        console.log(result)
         APIINVENTORY.viewInventory(result).then(resultData => {
             console.log(resultData)
-            if(resultData.data.length === 0 || resultData.data === null){
+            if(resultData.data === null){
                 this.props.history.push({
                     pathname : "/payment",
                     state : {
