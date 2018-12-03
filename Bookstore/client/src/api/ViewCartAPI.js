@@ -1,10 +1,14 @@
 import axios from 'axios';
 
-const api = 'http://10.250.218.27:3000'
+const api = 'http://13.52.93.114:8000/scapi'
+
+const req_header = {
+    headers: { "apikey": "7d833d215308491aa2a60d18a83d61f1" }
+};
 
 // View cart
 export const viewCart = (userid) =>
-    axios.get(api+`/viewcart/${userid}`)
+    axios.get(api+`/viewcart/${userid}`,req_header)
         .then(function (response){
             return response;
         }).catch(error => {
@@ -13,7 +17,7 @@ export const viewCart = (userid) =>
 
 // Add new cart when a user sign up
 export const addNewCart = (userid) =>
-    axios.post(api+`/addcart/${userid}`)
+    axios.post(api+`/addcart/${userid}`,req_header)
         .then(response => {
             return response;
         }).catch(error => {
@@ -22,7 +26,7 @@ export const addNewCart = (userid) =>
 
 // Add book to cart when a user clicks on 'Add to Cart'
 export const addBookToCart = (userid, data) =>
-    axios.post(api+`/addbooktocart/${userid}`, data)
+    axios.post(api+`/addbooktocart/${userid}`, data,req_header)
         .then(response => {
             return response;
         }).catch(error => {
@@ -31,7 +35,7 @@ export const addBookToCart = (userid, data) =>
 
 // Update cart when user changes the quantity
 export const updateCart = (userid, data) =>
-    axios.post(api+`/updatecart/${userid}`, data)
+    axios.post(api+`/updatecart/${userid}`, data,req_header)
         .then(response => {
             return response;
         }).catch(error => {
@@ -40,7 +44,7 @@ export const updateCart = (userid, data) =>
 
 // Clear cart after Payment is made
 export const clearCart = (userid) =>
-    axios.post(api+`/clearcart/${userid}`)
+    axios.post(api+`/clearcart/${userid}`,req_header)
         .then(response => {
             return response;
         }).catch(error => {

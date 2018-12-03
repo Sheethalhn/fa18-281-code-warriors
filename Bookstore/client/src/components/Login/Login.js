@@ -19,10 +19,14 @@ class Login extends Component{
 
     handleLogin = (data) => {
 
-        axios.post('http://localhost:3000/login',data).then((response) => {
+        const req_header = {
+            headers: { "apikey": "7d833d215308491aa2a60d18a83d61f1" }
+        };
+
+        axios.post('http://13.52.93.114:8000/userapi/login',data,req_header).then((response) => {
             //console.log(response);
             if(response.data == "true"){
-                axios.post('http://localhost:3000/getUserById',data).then((response) => {
+                axios.post('http://13.52.93.114:8000/userapi/getUserById',data,req_header).then((response) => {
                     console.log(response.data.id);
                     localStorage.setItem('user',response.data.id);
                 })
