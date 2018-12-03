@@ -14,7 +14,7 @@ import (
     	
 )
 
-var mongodb_server = "mongodb://admin:admin12345@ds117834.mlab.com:17834/bookstore"
+var mongodb_server = "mongodb://admin:cmpe281@10.0.1.94:27017,10.0.1.149:27017,10.0.1.141:27017,10.0.6.165:27017,10.0.6.82:27017"
 var mongodb_database = "bookstore"
 var mongodb_collection = "users"
 
@@ -37,6 +37,7 @@ func NewServer() *negroni.Negroni {
 
 // API Routes
 func initRoutes(mx *mux.Router, formatter *render.Render) {
+	mx.HandleFunc("/ping", pingHandler(formatter)).Methods("GET")
 	mx.HandleFunc("/login", loginHandler(formatter)).Methods("POST")
 	mx.HandleFunc("/signup", signupHandler(formatter)).Methods("POST")
 	mx.HandleFunc("/getUserById", getUserHandler(formatter)).Methods("POST")
@@ -174,6 +175,13 @@ func getUserHandler(formatter *render.Render) http.HandlerFunc{
 	 }
 
 }
+
+func pingHandler(formatter *render.Render) http.HandlerFunc {
+	return func(w http.ResponseWriter, req *http.Request) {
+		formatter.JSON(w, http.StatusOK, struct{ Test string }{"API version 1.0 alive!"})
+	}
+}
+
 
 
 
