@@ -10,7 +10,7 @@ import * as APIBOOK from '../../api/BookAPI';
 import * as APIINVENTORY from '../../api/InventoryAPI';
 
 // DUMMY VALUES
-var resultData = [{price : 1.32, bookName: "book1", bookId : "5bf7a618746498683a9c4561"}, {price:2.45, bookName : "book2",  bookId : "5bf7a618746498683a9c4563"}]
+// var resultData = [{price : 1.32, bookName: "book1", bookId : "5bf7a618746498683a9c4561"}, {price:2.45, bookName : "book2",  bookId : "5bf7a618746498683a9c4563"}]
 
 function roundToTwo(num) {    
     return Math.ceil(num * 100)/100;
@@ -26,7 +26,6 @@ class ViewCart extends Component{
             totalamount : 0,
             updatebooks :[{}],
             isLoading : true,
-            inventoryclear : false,
             alert : null
         };
         //Bind the handlers to this class
@@ -66,35 +65,6 @@ class ViewCart extends Component{
             a.bookCount = rows[k].bookcount
             checking.push(a)
         }
-
-        // APIINVENTORY.viewInventory(checkbook).then(resultData => {
-        //     if(resultData.length === 0){
-        //         this.props.history.push({
-        //             pathname : "/payment",
-        //             state : {
-        //                 checkbook : checkbook
-        //             }
-        //         });
-        //         // this.setState ({
-        //         //     inventoryclear : true
-        //         // })
-        //     } else {
-        //         const getAlert = () => (
-        //             <SweetAlert 
-        //                 warning
-        //                 showCancel
-        //                 confirmBtnBsStyle="danger"
-        //                 cancelBtnBsStyle="default"
-        //                 title="Some Books are not available"
-        //                 onConfirm={this.cancelAlert}>
-        //                 {resultData}
-        //             </SweetAlert>
-        //         );
-        //         this.setState({
-        //           alert: getAlert(),
-        //         })
-        //     }
-        // })
         var result = { "books" : checking }
         console.log(typeof(result))
         console.log(result)
@@ -104,15 +74,11 @@ class ViewCart extends Component{
                 this.props.history.push({
                     pathname : "/payment",
                     state : {
-                        checkbook : checkbook,
-                        totalmount : totalmount
+                        checkbook : this.state.rows,
+                        totalamount : this.state.totalamount
                     }
                 });
-                // this.setState ({
-                //     inventoryclear : true
-                // })
             } else {
-                console.log(resultData.data)
                 const getAlert = () => (
                     <SweetAlert 
                         warning
@@ -244,28 +210,9 @@ class ViewCart extends Component{
                 let bookIds = books.map(a => a.bookid);
                 this.totalamount = 0;
                 var self = this;
-                // APIBOOK.getBookByIds(bookIds).then(resultData => {
-                //     for(var i = 0; i < self.books.length; i++){
-                //         let bookObj = resultData.data.find(obj => obj.bookId == self.books[i].bookid);
-                //         self.books[i].bookimg = bookObj.bookImg
-                //         self.books[i].bookname = bookObj.bookName
-                //         self.books[i].price = bookObj.price
-                //         self.books[i].amount = roundToTwo(self.books[i].bookcount * self.books[i].price);
-                //         self.totalamount += self.books[i].amount;
-                //     }
-                //     console.log(self.totalamount)
-                //     var books1 = JSON.parse(JSON.stringify(self.books))
-                //      this.setState ({
-                //         bookstable : self.response,
-                //         totalamount : self.totalamount,
-                //         rows : books,
-                //         updatebooks : books1,
-                //         isLoading : false
-                //     })
-                // }) 
-
+                APIBOOK.getBookByIds(bookIds).then(resultData => {
                     for(var i = 0; i < self.books.length; i++){
-                        let bookObj = resultData.find(obj => obj.bookId == self.books[i].bookid);
+                        let bookObj = resultData.data.find(obj => obj.bookId == self.books[i].bookid);
                         // self.books[i].bookimg = bookObj.bookImg
                         self.books[i].bookname = bookObj.bookName
                         self.books[i].price = bookObj.price
@@ -281,18 +228,32 @@ class ViewCart extends Component{
                         updatebooks : books1,
                         isLoading : false
                     })
+                }) 
+
+                    // for(var i = 0; i < self.books.length; i++){
+                    //     let bookObj = resultData.find(obj => obj.bookId == self.books[i].bookid);
+                    //     // self.books[i].bookimg = bookObj.bookImg
+                    //     self.books[i].bookname = bookObj.bookName
+                    //     self.books[i].price = bookObj.price
+                    //     self.books[i].amount = roundToTwo(self.books[i].bookcount * self.books[i].price);
+                    //     self.totalamount += self.books[i].amount;
+                    // }
+                    // console.log(self.totalamount)
+                    // var books1 = JSON.parse(JSON.stringify(self.books))
+                    //  this.setState ({
+                    //     bookstable : self.response,
+                    //     totalamount : self.totalamount,
+                    //     rows : self.books,
+                    //     updatebooks : books1,
+                    //     isLoading : false
+                    // })
             }
         });
     }
     
     render(){
-        // let redirectVar = null;
-        // if( this.state.inventoryclear ){
-        //     redirectVar = <Redirect to= "/payment"/>
-        // }
         return(
          <div>
-             {/* {redirectVar} */}
             <Header/>
             <section className="bg-title-page p-t-40 p-b-50 flex-col-c-m" style= {{backgroundImage: "url(images/cart.jpg)"}}>
                 <h2 className="l-text2 t-center">
