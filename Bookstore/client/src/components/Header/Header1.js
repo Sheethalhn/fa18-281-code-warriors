@@ -21,7 +21,7 @@ class Header1 extends Component {
                             <a href="/books" className="logo">
                                 <img src={bookStoreLogo} alt="IMG-LOGO" className="header-img" />
                             </a>
-                                
+
 
 
                         </div>
