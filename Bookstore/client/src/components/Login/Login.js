@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import './Design.css'
-import Header from '../Header/Header';
+import Header1 from '../Header/Header1';
 import bookstore from './images/book_store.jpg';
 import { Link } from 'react-router-dom';
 import axios from "axios/index";
@@ -46,7 +46,7 @@ class Login extends Component{
     render(){
         return(
             <div className="container">
-                <Header/>
+                <Header1/>
                 <div className="login-box col-md-4">
                     <img src={bookstore} className="book-style" />
                     <p style={{ color: "white"}}>LOGIN HERE</p> <br />

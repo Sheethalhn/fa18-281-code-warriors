@@ -2,7 +2,7 @@ import React, {Component} from 'react';
 import './Design.css'
 import bookstore from './images/book_store.jpg';
 import { Link } from 'react-router-dom';
-import Header from '../Header/Header';
+import Header1 from '../Header/Header1';
 import axios from 'axios'
 
 
@@ -47,7 +47,7 @@ class Signup extends Component{
     render(){
         return(
             <div className="container">
-                <Header/>
+                <Header1/>
                 <div className="signup-box col-md-4">
                     <img src={bookstore} className="book-style" />
                     <p style={{ color: "white"}}>SIGNUP HERE</p> <br />
