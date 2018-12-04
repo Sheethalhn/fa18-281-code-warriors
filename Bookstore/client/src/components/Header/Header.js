@@ -18,7 +18,7 @@ class Header extends Component {
                 <header className="header1">
                     <div className="container-menu-header">
                         <div className="wrap_header">
-                            <a href="/books" className="logo">
+                            <a href="/" className="logo">
                                 <img src={bookStoreLogo} alt="IMG-LOGO" className="header-img" />
                             </a>
                             <div className="header-icons">
