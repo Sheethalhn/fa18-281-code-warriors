@@ -25,6 +25,13 @@ class Signup extends Component{
         }
     }
 
+    componentWillMount(){
+        //localStorage.removeItem('user');
+        if(localStorage.getItem('user') != null){
+            window.location = "/books"
+        }
+    }
+
     doSignUp = (data) => {
         this.setState({
             u_message: '',

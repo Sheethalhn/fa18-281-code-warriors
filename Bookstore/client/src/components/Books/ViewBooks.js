@@ -19,6 +19,12 @@ class ViewBooks extends Component {
         this.handleClose = this.handleClose.bind(this);
     }
 
+    componentWillMount(){
+        if(localStorage.getItem('user') === null){
+            window.location = '/login';
+        }
+    }
+
     componentDidMount() {
         API.getBooks()
             .then((resultData) => {
