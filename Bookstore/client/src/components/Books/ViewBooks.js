@@ -20,7 +20,7 @@ class ViewBooks extends Component {
     }
 
     componentWillMount(){
-        if(localStorage.getItem('user') === null){
+        if(localStorage.getItem('userId') === null){
             window.location = '/';
         }
     }

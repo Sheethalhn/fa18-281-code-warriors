@@ -20,7 +20,7 @@ class Login extends Component{
     }
 
     componentWillMount(){
-        if(localStorage.getItem('user') != null){
+        if(localStorage.getItem('userId') != null){
             window.location = "/books"
         }
     }
@@ -66,7 +66,7 @@ class Login extends Component{
                 if (response.data == "true") {
                     axios.post('http://localhost:3000/getUserById', data).then((response) => {
                         console.log(response.data.id);
-                        localStorage.setItem('user', response.data.id);
+                        localStorage.setItem('userId', response.data.id);
                         window.location = "/books";
                         this.setState({
                             message: "Login Successful!!"

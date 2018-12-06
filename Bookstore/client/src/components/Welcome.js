@@ -7,7 +7,7 @@ class Welcome extends Component{
 
     componentWillMount(){
         //localStorage.removeItem('user');
-        if(localStorage.getItem('user') != null){
+        if(localStorage.getItem('userId') != null){
             window.location = "/books"
         }
     }

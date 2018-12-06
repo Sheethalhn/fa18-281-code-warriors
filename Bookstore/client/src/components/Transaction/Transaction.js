@@ -15,6 +15,9 @@ class Transaction extends Component{
     }
 
     componentWillMount() {
+        if(localStorage.getItem('userId') === null){
+            window.location = '/';
+        }
         axios.get('http://localhost:3000/getAllTransactionByUser/1234').then((response) => {
             console.log("dfjfd",response.data);
             if(response.status === 200 && response.data!==null){
@@ -27,8 +30,6 @@ class Transaction extends Component{
                     noTran: "Sorry, Please purchase some books to see transaction"
                 })
             }
-
-
         })
     }
 

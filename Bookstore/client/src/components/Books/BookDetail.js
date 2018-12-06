@@ -14,6 +14,12 @@ class BookDetail extends Component {
         };
     }
 
+    componentWillMount(){
+        if(localStorage.getItem('userId') === null){
+            window.location = '/';
+        }
+    }
+
     componentDidMount() {
         if (this.props.match.params.bookId != null) {
             API.getBookByIds(this.props.match.params.bookId)

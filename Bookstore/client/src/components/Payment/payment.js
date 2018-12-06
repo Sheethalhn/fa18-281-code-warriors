@@ -36,6 +36,12 @@ class Payment extends Component {
         this.handleCancel = this.handleCancel.bind(this);
         this.cancelAlert = this.cancelAlert.bind(this)
     }
+
+    componentWillMount(){
+        if(localStorage.getItem('userId') === null){
+            window.location = '/';
+        }
+    }
     
 
     handleSubmit(e) {
