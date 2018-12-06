@@ -37,6 +37,12 @@ class ViewCart extends Component{
         this.cancelAlert = this.cancelAlert.bind(this)
     }
 
+    componentWillMount(){
+        if(localStorage.getItem('userId') === null){
+            window.location = '/';
+        }
+    }
+
     resetCart () {
         console.log(this.state.rows)
         this.setState ({

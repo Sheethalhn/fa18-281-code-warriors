@@ -13,6 +13,12 @@ class Transaction extends Component{
     }
 
     componentWillMount() {
+
+            if(localStorage.getItem('userId') === null){
+                window.location = '/';
+            }
+
+
         axios.get('http://localhost:3000/getAllTransactionByUser/12345').then((response) => {
             console.log(response.data);
             if(response.status === 200){
