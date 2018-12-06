@@ -18,19 +18,20 @@ class Transaction extends Component{
         if(localStorage.getItem('userId') === null){
             window.location = '/';
         }
-        axios.get('http://localhost:3000/getAllTransactionByUser/1234').then((response) => {
-            console.log("dfjfd",response.data);
-            if(response.status === 200 && response.data!==null){
-                this.setState({
-                    transactions: response.data
-                })
-            }
-            else{
-                this.setState({
-                    noTran: "Sorry, Please purchase some books to see transaction"
-                })
-            }
-        })
+        else {
+            axios.get('http://localhost:3000/getAllTransactionByUser/'+localStorage.getItem('userId')).then((response) => {
+                console.log("check response data", response.data);
+                if (response.status === 200 && response.data !== null) {
+                    this.setState({
+                        transactions: response.data
+                    })
+                } else {
+                    this.setState({
+                        noTran: "Sorry, Please purchase some books to see transaction"
+                    })
+                }
+            })
+        }
     }
 
     renderBooks = (transaction) => {
