@@ -1,0 +1,13 @@
+.transaction{
+    min-height: 150px;
+    width: 500px;
+    margin-bottom: 20px;
+    margin-left: 27.5%;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.sub-transaction{
+    text-align: left;
+    padding-top: 10px;
+    margin-left: 10px;
+}
