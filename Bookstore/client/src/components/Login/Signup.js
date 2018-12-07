@@ -26,7 +26,7 @@ class Signup extends Component{
     }
 
     componentWillMount(){
-        //localStorage.removeItem('user');
+        //localStorage.removeItem('userId');
         if(localStorage.getItem('userId') != null){
             window.location = "/books"
         }
@@ -98,12 +98,12 @@ class Signup extends Component{
 
     handleSignUp = (data) => {
 
-        // const req_header = {
-        //     headers: { "apikey": "7d833d215308491aa2a60d18a83d61f1" }
-        // };
-        console.log(this.state.u_message);
+        const req_header = {
+            headers: { "apikey": "7d833d215308491aa2a60d18a83d61f1" }
+        };
+        //console.log(this.state.u_message);
         if(this.state.u_message != 'Username should be atleast 8 in length' && this.state.p_message != 'Password should be atleast 8 in length' && this.state.cp_message != 'Passwords donot Match' && this.state.f_message != 'First Name cannot be empty' && this.state.l_message != 'Last Name cannot be empty') {
-            axios.post('http://localhost:3000/signup', data).then((response) => {
+            axios.post('http://13.52.93.114:8000/userapi/signup', data, req_header).then((response) => {
                 console.log(response);
                 if (response.data == "true") {
                     this.setState({

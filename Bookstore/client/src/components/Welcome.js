@@ -6,7 +6,7 @@ import background from './kids.jpg'
 class Welcome extends Component{
 
     componentWillMount(){
-        //localStorage.removeItem('user');
+          //localStorage.setItem('userId', 'abcd');
         if(localStorage.getItem('userId') != null){
             window.location = "/books"
         }
