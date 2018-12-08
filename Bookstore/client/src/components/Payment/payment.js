@@ -226,7 +226,7 @@ class Payment extends Component {
                                     <img src={amexlogo} id="amex" />
                                 </div>
                                 <div className="form-group" id="pay-now">
-                                    <button type="submit" onClick ={this.handleSubmit} className="btn btnpayment" id="confirm-purchase">Pay Now</button>{this.state.alert}
+                                    <button type="submit" className="btn btnpayment" id="confirm-purchase">Pay Now</button>{this.state.alert}
                                     <button type="button" onClick ={this.handleCancel} className="btn btnpayment" id="cancel-purchase">Cancel</button>
                                 </div>
                             </form>
