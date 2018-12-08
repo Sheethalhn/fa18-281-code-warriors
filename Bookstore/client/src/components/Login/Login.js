@@ -64,7 +64,7 @@ class Login extends Component{
             axios.post('http://13.52.93.114:8000/userapi/login', data, req_header).then((response) => {
                 //console.log(response);
                 if (response.data == "true") {
-                    axios.post('http://localhost:3000/getUserById', data).then((response) => {
+                    axios.post('http://13.52.93.114:8000/userapi/getUserById', data, req_header).then((response) => {
                         console.log(response.data.id);
                         localStorage.setItem('userId', response.data.id);
                         window.location = "/books";
