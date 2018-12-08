@@ -25,5 +25,5 @@ Divyank - Feedback
 
 ## Project Architecture
 
-![Team Project Architecture] (./Images/Team_Project_Architecture.png)
+![Project Team Architecture](Images/Team_Project_Architecture.png)
 
