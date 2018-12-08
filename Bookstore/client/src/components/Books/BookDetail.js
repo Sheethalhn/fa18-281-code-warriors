@@ -43,17 +43,20 @@ class BookDetail extends Component {
         let bookList = [];
         let payloadJson = {};
         let bookJSON = {};
-        bookJSON.bookId = book.bookId;
-        bookJSON.bookCount = 1;
-        bookList.push(bookJSON);
-        payloadJson.books = bookList;
-        ViewCartAPI.addBookToCart(localStorage.getItem('userId'),payloadJson)
-            .then((resultData) => {
-                this.setState({
-                    show: true,
-                    bookName: book.bookName
+        if(book != null && book !== undefined && book.bookId !== null && book.bookId !== undefined){
+            bookJSON.bookId = book.bookId;
+            bookJSON.bookCount = 1;
+            bookList.push(bookJSON);
+            payloadJson.books = bookList;
+            ViewCartAPI.addBookToCart(localStorage.getItem('userId'),payloadJson)
+                .then((resultData) => {
+                    this.setState({
+                        show: true,
+                        bookName: book.bookName
+                    });
                 });
-            });
+        }
+        
     }
 
     render() {
