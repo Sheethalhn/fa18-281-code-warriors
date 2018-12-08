@@ -115,10 +115,8 @@ class Signup extends Component{
                         message: "Signup Successfull!"
                     })
                     axios.post('http://13.52.93.114:8000/userapi/getUserById', data, req_header).then((response) => {
-                        userid = response.data.id;
-
-                    },API.addNewCart(Number(userid)));
-
+                        API.addNewCart(response.data.id)
+                    })
 
                 }
                 else {

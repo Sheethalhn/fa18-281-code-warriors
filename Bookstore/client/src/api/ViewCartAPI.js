@@ -16,13 +16,17 @@ export const viewCart = (userid) =>
     });
 
 // Add new cart when a user sign up
-export const addNewCart = (userid) =>
-    axios.post(api+`/addcart/${userid}`,req_header)
+export const addNewCart = (userid) => {
+    //console.log(typeof(userid))
+    //var user = Number(userid)
+    var data = {}
+    axios.post(api+`/addcart/${userid}`,data, req_header)
         .then(response => {
             return response;
         }).catch(error => {
         return error;
     });
+}
 
 // Add book to cart when a user clicks on 'Add to Cart'
 export const addBookToCart = (userid, data) =>

@@ -13,7 +13,7 @@ import (
         "github.com/rs/cors"
 )
 
-var mongodb_server = "localhost"
+var mongodb_server = "mongodb://admin:cmpe281@10.0.1.61:27017,10.0.1.152:27017,10.0.1.107:27017,10.0.3.243:27017,10.0.3.108:27017"
 var mongodb_database = "Bookstore"
 var mongodb_collection = "books"
 

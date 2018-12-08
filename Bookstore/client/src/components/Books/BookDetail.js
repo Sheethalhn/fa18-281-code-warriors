@@ -87,7 +87,7 @@ class BookDetail extends Component {
                                 <div className="flex-r-m flex-w p-t-10">
                                     <div className="w-size16 flex-m flex-w">
                                         <div className="btn-addcart-product-detail size9 trans-0-4 m-t-10 m-b-10">
-                                            <button className="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">
+                                            <button onClick={this.handleShow}  className="flex-c-m sizefull bg1 bo-rad-23 hov1 s-text1 trans-0-4">
                                                 Add to Cart
 								            </button>
                                         </div>
