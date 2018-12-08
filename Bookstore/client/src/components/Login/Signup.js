@@ -103,6 +103,7 @@ class Signup extends Component{
         const req_header = {
             headers: { "apikey": "7d833d215308491aa2a60d18a83d61f1" }
         };
+        var userid = 0;
 
         //console.log(this.state.u_message);
         if(this.state.u_message != 'Username should be atleast 8 in length' && this.state.p_message != 'Password should be atleast 8 in length' && this.state.cp_message != 'Passwords donot Match' && this.state.f_message != 'First Name cannot be empty' && this.state.l_message != 'Last Name cannot be empty') {
@@ -113,7 +114,11 @@ class Signup extends Component{
                     this.setState({
                         message: "Signup Successfull!"
                     })
-                    API.addNewCart(this.state.userId);
+                    axios.post('http://13.52.93.114:8000/userapi/getUserById', data, req_header).then((response) => {
+                        userid = response.data.id;
+
+                    },API.addNewCart(Number(userid)));
+
 
                 }
                 else {
