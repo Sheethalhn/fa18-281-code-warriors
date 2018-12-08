@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
 import bookStoreLogo from './book_store.jpg';
-import userImg from './user.png';
-import cartImg from './cart.png';
-import tranImg from './dollar.jpg';
+import bookImg from './download.png';
+import cartImg from './cart1.png';
+import tranImg from './transaction.png';
+import logoutImg from './logout.jpg';
 import './header.css';
 
 class Header extends Component {
@@ -11,6 +12,11 @@ class Header extends Component {
         super(props);
         this.state = {
         };
+    }
+
+    doLogout = () => {
+        localStorage.removeItem('userId');
+        window.location = "/";
     }
 
     render() {
@@ -23,8 +29,8 @@ class Header extends Component {
                                 <img src={bookStoreLogo} alt="IMG-LOGO" className="header-img" />
                             </a>
                             <div className="header-icons">
-                                <a href="/user" className="header-wrapicon1 dis-block">
-                                    <img src={userImg} className="header-icon1" alt="ICON" />
+                                <a href="/books" className="header-wrapicon1 dis-block">
+                                    <img src={bookImg} className="header-icon1" alt="ICON" />
                                 </a>
 
                                 <span className="linedivide1"></span>
@@ -38,6 +44,12 @@ class Header extends Component {
                                 <div className="header-wrapicon2">
                                     <a href="/transaction">
                                         <img src={tranImg} className="header-icon1 js-show-header-dropdown" alt="ICON" />
+                                    </a>
+                                </div>
+                                <span className="linedivide1"></span>
+                                <div className="header-wrapicon2">
+                                    <a onClick= {()=>this.doLogout()}>
+                                        <img src={logoutImg} className="header-icon1 js-show-header-dropdown" alt="ICON" />
                                     </a>
                                 </div>
                             </div>

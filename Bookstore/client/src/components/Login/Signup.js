@@ -28,7 +28,7 @@ class Signup extends Component{
     }
 
     componentWillMount(){
-        //localStorage.removeItem('userId');
+
         if(localStorage.getItem('userId') != null){
             window.location = "/books"
         }
