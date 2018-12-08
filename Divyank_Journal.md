@@ -31,3 +31,26 @@ We made sure that cluster management techniques are proper for everyone discussi
 
 Agile Core value - Feedback <br>
 We realised the continuous value of feedback this week while integrating apis. we realised that without effective feedback of work which we did individually, we could not successfully overcome the sync issues.
+
+## Week 4
+
+### Integrate MongoDB cluster to front-end deployed on Heroku
+1. Deployed the integrated frontend on Heroku
+2. Added kong on backend as an extra layer of security
+3. Started working on integration with team
+4. Deployed load balancer to manage 2 goapi backend servers
+
+Agile Core value - Feedback <br>
+Ensured continuous feedback flowing in team while integration so as to keep improving
+
+## Week 5
+
+### Implemented MongoDB sharding to scale on Z-axis 
+1. Started spinning up 2 mongodb shard server replicasets of 3 nodes each and 1 config replicaset.
+2. Added mongos router query server to act as a central point of contact for all mongodb queries
+3. Started working on integration with team
+4. Integrated 3 mongo clusters, kong, jumpbox and load balancer for go apis server
+5. Did a integration testing on all microservices to ensure smooth flow
+
+Agile Core value - Feedback <br>
+Ensured continuous feedback flowing in team while integration so as to keep improving
