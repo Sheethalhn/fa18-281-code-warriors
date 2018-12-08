@@ -47,6 +47,7 @@ class Payment extends Component {
     handleSubmit(e) {
         e.preventDefault();
         var rows = this.state.checkbook
+        console.log(rows)
         this.setState({ submitted: true });
         if (this.state.card_number !== undefined && this.state.card_number !== "" && this.state.name !== undefined && this.state.name !== ""  && this.state.cvv !== undefined && this.state.cvv !== "" ) {
             var checking = []
@@ -59,15 +60,17 @@ class Payment extends Component {
             // json for transaction
             var result = { books : checking}   
             var booksjson = []
+            var total=0
             for(var k=0; k< rows.length; k++){
                 var a = {}
                 a.bookid = rows[k].bookid // "5bf7a618746498683a9c4561"
                 a.bookname = rows[k].bookname   // "Mongo"
                 a.qty = rows[k].bookcount     //1
                 a.price = rows[k].amount     // 10
+                total+=a.qty*a.price
                 booksjson.push(a)
             }
-            var payload = {userid:localStorage.getItem('userId'), books : booksjson, totalamount : this.state.totalamount }
+            var payload = {userid:localStorage.getItem('userId'), books : booksjson, totalamount : total }
             this.payload = payload
             var self = this;
             API.viewInventory(result).then(resultData => {
@@ -223,7 +226,7 @@ class Payment extends Component {
                                     <img src={amexlogo} id="amex" />
                                 </div>
                                 <div className="form-group" id="pay-now">
-                                    <button type="submit" className="btn btnpayment" id="confirm-purchase">Pay Now</button>{this.state.alert}
+                                    <button type="submit" onClick ={this.handleSubmit} className="btn btnpayment" id="confirm-purchase">Pay Now</button>{this.state.alert}
                                     <button type="button" onClick ={this.handleCancel} className="btn btnpayment" id="cancel-purchase">Cancel</button>
                                 </div>
                             </form>
