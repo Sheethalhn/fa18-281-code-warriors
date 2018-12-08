@@ -95,10 +95,8 @@ class Payment extends Component {
                                     self.setState({alert: getAlert()})
 
                                      CartAPI.clearCart(localStorage.getItem('userId')).then(resultData =>{
-                                        if(resultData.status === 200)
-                                        {
                                             this.props.history.push("/books");
-                                        }
+                                        
 
                                     })
                                 }
