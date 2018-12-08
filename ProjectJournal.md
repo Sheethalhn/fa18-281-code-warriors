@@ -83,10 +83,40 @@
 #### Meeting Results:
 
 1. Database setup ready to integrate with the GO API.
-3. UI Integration with GO backend ready by the end of the week.
+2. UI Integration with GO backend ready by the end of the week.
 
 #### Challenges:
 
 1. Database Sharding key selection based on the application
 
+## Week 5 (2nd December - 7th December)
 
+#### Meeting Date: 4th December
+
+#### Discussion Points:
+1. Architecture Stack Build up with integration of each microservices.
+2. Decision factor of public-private subnet of components on the stack.
+3. Demonstration of one microservices from end-to-end.
+
+#### Meeting Results:
+
+1. Integrated all the microservices and working successfully.
+2. Kong And heroku Configuration setup for CORs still open-ended issue.
+3. Frontend Integration and testing to finalize the project.
+
+#### Challenges:
+
+1. VPC connection with each other and slower response at first time query fetching.
+
+
+#### Meeting Date: 7th December
+
+#### Discussion Points:
+1. Tested the entire flow of the application with each microservice splits.
+2. Verified the AKF Scale Cube considering all the axis working properly.
+3. Documentated the process with API and configuration of Kong Info.
+
+
+#### Meeting Results:
+
+1. Ready for the Demo
