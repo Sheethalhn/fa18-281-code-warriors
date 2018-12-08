@@ -55,3 +55,6 @@ As decided we have built a simple yet complete SAAS app successfully which is wo
 4.Load balancer ,Kong gatway configurations with api key configurations for Kong  
 5.Successfully deployed and tested inventory microservice with rest of the API and books app is working like expected
 
+Agile Core value -Simplicity
+
+As we had decided at the beginning of this project  we sticked on with our goals to learn one step at a time ,keep it simple and strong principle and successfully built a micro service architecture which we had visualized.It has been a good learning experience which made us learn and implement concepts of cloud and nosql efficiently
