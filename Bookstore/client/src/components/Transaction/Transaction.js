@@ -15,11 +15,14 @@ class Transaction extends Component{
     }
 
     componentWillMount() {
+        const req_header = {
+            headers: { "apikey": "7d833d215308491aa2a60d18a83d61f1" }
+        };
         if(localStorage.getItem('userId') === null){
             window.location = '/';
         }
         else {
-            axios.get('http://localhost:3000/getAllTransactionByUser/'+localStorage.getItem('userId')).then((response) => {
+            axios.get('http://13.52.93.114:8000/transapi/getAllTransactionByUser/'+localStorage.getItem('userId'),req_header).then((response) => {
                 console.log("check response data", response.data);
                 if (response.status === 200 && response.data !== null) {
                     this.setState({
