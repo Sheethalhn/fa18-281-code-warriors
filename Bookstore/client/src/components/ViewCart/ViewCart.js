@@ -207,8 +207,11 @@ class ViewCart extends Component{
         var userid = localStorage.getItem('userId');
         API.viewCart(userid).then(response => {
             console.log("Status Code : ",response);
-            if(response.status === 200){  
+            if(response.status === 200){
+                console.log(response.data.books)
                 var books = JSON.parse(JSON.stringify(response.data.books))
+                console.log("books");
+                console.log(books);
                 this.books=books
                 this.response = response.data
                 let bookIds = books.map(a => a.bookid);
