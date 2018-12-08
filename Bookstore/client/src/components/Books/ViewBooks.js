@@ -110,7 +110,7 @@ class ViewBooks extends Component {
                                         <i className="icon-wishlist icon_heart dis-none" aria-hidden="true"></i>
                                     </a>
                                     <div className="block2-btn-addcart w-size1 trans-0-4">
-                                        <button onClick={this.handleShow} className="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
+                                        <button onClick={() => { this.handleShow(book) }} className="flex-c-m size1 bg4 bo-rad-23 hov1 s-text1 trans-0-4">
                                             Add to Cart
                                 </button>
                                     </div>
