@@ -113,7 +113,7 @@ class Signup extends Component{
                     this.setState({
                         message: "Signup Successfull!"
                     })
-                    API.addNewCart(localStorage.getItem('userId'));
+                    API.addNewCart(Number(localStorage.getItem('userId')));
 
                 }
                 else {
