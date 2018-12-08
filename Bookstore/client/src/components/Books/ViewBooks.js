@@ -47,7 +47,7 @@ class ViewBooks extends Component {
         let bookList = [];
         let payloadJson = {};
         let bookJSON = {};
-        if(book != null && book !== undefined && book.bookId !== null && book.bookId !== undefined){
+        if(book != null && book !== undefined && book.bookId !== null && book.bookId !== undefined && book.bookId != ""){
             bookJSON.bookId = book.bookId;
             bookJSON.bookCount = 1;
             bookList.push(bookJSON);
