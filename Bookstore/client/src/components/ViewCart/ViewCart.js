@@ -38,6 +38,12 @@ class ViewCart extends Component{
         this.cancelAlert = this.cancelAlert.bind(this)
     }
 
+    componentWillMount(){
+        if(localStorage.getItem('userId') === null){
+            window.location = '/';
+        }
+    }
+
     resetCart () {
         console.log(this.state.rows)
         this.setState ({
@@ -204,7 +210,10 @@ class ViewCart extends Component{
             console.log("Status Code : ",response);
             if(response.status === 200){  
                 if(response.data !== "Cart Empty") {
+                console.log(response.data.books)
                 var books = JSON.parse(JSON.stringify(response.data.books))
+                console.log("books");
+                console.log(books);
                 this.books=books
                 this.response = response.data
                 let bookIds = books.map(a => a.bookid);

@@ -13,7 +13,7 @@ import (
 	"github.com/rs/cors"
 )
 
-var mongodb_server = ""mongodb://admin:*****@10.0.1.78:27017,10.0.1.80:27017,10.0.1.53:27017,10.0.1.57:27017,10.0.1.102:27017"
+var mongodb_server = "localhost"
 var mongodb_database = "bookstore"
 var mongodb_collection = "transaction"
 
@@ -111,7 +111,7 @@ func transactionHandler(formatter *render.Render) http.HandlerFunc{
 		
 		
 		var transactions []Transaction
-		err3 := c.Find(bson.M{"userid": params["id"]}).All(&transactions)
+		err3 := c.Find(bson.M{"userId": params["id"]}).All(&transactions)
 		fmt.Println(err3)
 		fmt.Println(transactions)
 		if err3 != nil {

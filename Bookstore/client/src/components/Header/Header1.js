@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import bookStoreLogo from './book_store.jpg';
-import userImg from './user.png';
-import cartImg from './cart.png';
+import userImg from './login.png';
+import cartImg from './signup.png';
 import './header.css';
 
-class Header extends Component {
+class Header1 extends Component {
 
     constructor(props) {
         super(props);
@@ -21,19 +21,23 @@ class Header extends Component {
                             <a href="/" className="logo">
                                 <img src={bookStoreLogo} alt="IMG-LOGO" className="header-img" />
                             </a>
+
                             <div className="header-icons">
-                                <a href="/user" className="header-wrapicon1 dis-block">
+                                <a href="/login" className="header-wrapicon1 dis-block">
                                     <img src={userImg} className="header-icon1" alt="ICON" />
                                 </a>
 
                                 <span className="linedivide1"></span>
 
                                 <div className="header-wrapicon2">
-                                    <a href="/viewshoppingcart">
+                                    <a href="/signup">
                                         <img src={cartImg} className="header-icon1 js-show-header-dropdown" alt="ICON" />
                                     </a>
                                 </div>
                             </div>
+
+
+
                         </div>
                     </div>
                 </header>
@@ -43,4 +47,4 @@ class Header extends Component {
     }
 }
 
-export default Header;
+export default Header1;

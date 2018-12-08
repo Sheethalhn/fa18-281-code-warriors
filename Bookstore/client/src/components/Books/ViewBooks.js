@@ -19,6 +19,12 @@ class ViewBooks extends Component {
         this.handleClose = this.handleClose.bind(this);
     }
 
+    componentWillMount(){
+        if(localStorage.getItem('userId') === null){
+            window.location = '/';
+        }
+    }
+
     componentDidMount() {
         API.getBooks()
             .then((resultData) => {
@@ -48,6 +54,7 @@ class ViewBooks extends Component {
         console.log("payloadJson :",payloadJson);
         ViewCartAPI.addBookToCart(localStorage.getItem('userId'),payloadJson)
             .then((resultData) => {
+                console.log("resultdata:") ;
                 this.setState({
                     show: true,
                     bookName: book.bookName

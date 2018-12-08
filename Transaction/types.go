@@ -12,7 +12,7 @@ type Book struct {
 }
 type Transaction struct {
 	ID  bson.ObjectId `json:"id" bson:"_id"`
-	UserID  string `json:"userid" bson:"userid"`
+	UserID  string `json:"userId" bson:"userId"`
 	MyBooks []Book `json:"books" bson:"books"`
 	TotalAmt  float64 `json:"totalamount" bson:"totalamount"`
 }
