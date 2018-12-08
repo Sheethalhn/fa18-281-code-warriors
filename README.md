@@ -23,3 +23,7 @@ Divyank - Feedback
 
 [Task Board](https://github.com/nguyensjsu/fa18-281-code-warriors/projects/1)
 
+## Project Architecture
+
+![Team Project Architecture] (./Images/Team_Project_Architecture.png)
+
