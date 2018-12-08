@@ -26,7 +26,8 @@ class ViewCart extends Component{
             totalamount : 0,
             updatebooks :[{}],
             isLoading : true,
-            alert : null
+            alert : null,
+            data : false
         };
         //Bind the handlers to this class
         this.updateCart = this.updateCart.bind(this)
@@ -147,7 +148,7 @@ class ViewCart extends Component{
               return <tr className="table-row" key ={i}>
               <td className="column-1">
                   <div className="cart-img-product b-rad-4 o-f-hidden">
-                      <img src="images/item-10.jpg" alt="IMG-PRODUCT"/>
+                    <img src={'/images/' + rows[i].bookimg} alt="IMG-PRODUCT"/>
                   </div>
               </td>
               <td className="column-2">{rows[i].bookname}</td>
@@ -174,7 +175,7 @@ class ViewCart extends Component{
                   return <tr className="table-row" key ={i}>
                   <td className="column-1">
                       <div className="cart-img-product b-rad-4 o-f-hidden">
-                          <img src="images/item-10.jpg" alt="IMG-PRODUCT"/>
+                          <img src={'/images/' + updatebooks[i].bookimg} alt="IMG-PRODUCT"/>
                       </div>
                   </td>
                   <td className="column-2">{updatebooks[i].bookname}</td>
@@ -202,6 +203,7 @@ class ViewCart extends Component{
         API.viewCart(userid).then(response => {
             console.log("Status Code : ",response);
             if(response.status === 200){  
+                if(response.data !== "Cart Empty") {
                 var books = JSON.parse(JSON.stringify(response.data.books))
                 this.books=books
                 this.response = response.data
@@ -211,7 +213,7 @@ class ViewCart extends Component{
                 APIBOOK.getBookByIds(bookIds).then(resultData => {
                     for(var i = 0; i < self.books.length; i++){
                         let bookObj = resultData.data.find(obj => obj.bookId == self.books[i].bookid);
-                        // self.books[i].bookimg = bookObj.bookImg
+                        self.books[i].bookimg = bookObj.bookImg
                         self.books[i].bookname = bookObj.bookName
                         self.books[i].price = bookObj.price
                         self.books[i].amount = roundToTwo(self.books[i].bookcount * self.books[i].price);
@@ -224,9 +226,11 @@ class ViewCart extends Component{
                         totalamount : self.totalamount,
                         rows : self.books,
                         updatebooks : books1,
-                        isLoading : false
+                        isLoading : false,
+                        data : true
                     })
                 }) 
+                }
 
                     // for(var i = 0; i < self.books.length; i++){
                     //     let bookObj = resultData.find(obj => obj.bookId == self.books[i].bookid);
@@ -260,6 +264,7 @@ class ViewCart extends Component{
             </section>
             <section className="cart bgwhite p-t-70 p-b-100">
                 <div className="container ">
+                    {this.state.data ?
                     <div className="container-table-cart pos-relative" style = {{borderLeft: "1px solid #e6e6e6" ,
     borderRight: "1px solid #e6e6e6", borderTop: "1px solid #e6e6e6"}}>
                         <div className="wrap-table-shopping-cart bgwhite">
@@ -276,7 +281,10 @@ class ViewCart extends Component{
                               </tbody>
                             </table>
                         </div>
-                    </div>
+                    </div> : 
+                    <div className="">
+                    <h4 className="m-text20 p-b-24"> Cart is empty</h4> </div>
+                    }
 
                     <div className="flex-w flex-sb-m p-t-25 p-b-25 bo8 p-l-35 p-r-60 p-lr-15-sm">
                         <div className="size10 trans-0-4 m-t-10 m-b-10"> 
