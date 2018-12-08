@@ -154,7 +154,7 @@ class ViewCart extends Component{
               return <tr className="table-row" key ={i}>
               <td className="column-1">
                   <div className="cart-img-product b-rad-4 o-f-hidden">
-                    <img src={'/images/' + rows[i].bookimg} style  ={{width : "720px", height : "932px"}} alt="IMG-PRODUCT"/>
+                    <img src={'/images/' + rows[i].bookimg} style  ={{width : "210px", height : "300px"}} alt="IMG-PRODUCT"/>
                   </div>
               </td>
               <td className="column-2">{rows[i].bookname}</td>
@@ -181,7 +181,7 @@ class ViewCart extends Component{
                   return <tr className="table-row" key ={i}>
                   <td className="column-1">
                       <div className="cart-img-product b-rad-4 o-f-hidden">
-                          <img src={'/images/' + updatebooks[i].bookimg} style  ={{width : "720px", height : "932px"}} alt="IMG-PRODUCT"/>
+                          <img src={'/images/' + updatebooks[i].bookimg} style  ={{width : "210px", height : "300px"}} alt="IMG-PRODUCT"/>
                       </div>
                   </td>
                   <td className="column-2">{updatebooks[i].bookname}</td>
