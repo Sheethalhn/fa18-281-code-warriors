@@ -47,4 +47,11 @@ Agile Core value -Simplicity
 
 As decided we have built a simple yet complete SAAS app successfully which is working as expected on integration.Though there were few issues while integrating we could change it without much effort since team kept their API's simple to understand and extend.
     
+## Week 5
+
+1.This is the last week of project and we concentrated more on architecture ,scaling and deployment part of the app
+2.Deployed GO API on docker in two instances in private subnet
+3.Successfull VPC pairing with Book DB VPC to access books database.
+4.Load balancer ,Kong gatway configurations with api key configurations for Kong
+5.Successfully deployed and tested inventory microservice with rest of the API and books app is working like expected
 
