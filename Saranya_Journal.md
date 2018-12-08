@@ -29,3 +29,6 @@ Team discussed about the various scenarios and decided to develop go api's first
 
 * Discussed with the team about UI requirements. 
 * Integrated UI with the GO api and fixed some bugs
+* Did application testing to test our micro services
+* Deployed 5 mongo clusters, kong, jumpbox and load balancer for go apis
+
