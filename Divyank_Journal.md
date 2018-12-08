@@ -53,4 +53,4 @@ Ensured continuous feedback flowing in team while integration so as to keep impr
 5. Did a integration testing on all microservices to ensure smooth flow
 
 Agile Core value - Feedback <br>
-Ensured continuous feedback flowing in team while integration so as to keep improving
+Feedback each other's work , positive and constructive reviews helped us resolve all our integration issues
