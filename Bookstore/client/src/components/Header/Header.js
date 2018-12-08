@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import bookStoreLogo from './book_store.jpg';
 import userImg from './user.png';
 import cartImg from './cart.png';
+import tranImg from './dollar.jpg';
 import './header.css';
 
 class Header extends Component {
@@ -31,6 +32,12 @@ class Header extends Component {
                                 <div className="header-wrapicon2">
                                     <a href="/viewshoppingcart">
                                         <img src={cartImg} className="header-icon1 js-show-header-dropdown" alt="ICON" />
+                                    </a>
+                                </div>
+                                <span className="linedivide1"></span>
+                                <div className="header-wrapicon2">
+                                    <a href="/transaction">
+                                        <img src={tranImg} className="header-icon1 js-show-header-dropdown" alt="ICON" />
                                     </a>
                                 </div>
                             </div>
