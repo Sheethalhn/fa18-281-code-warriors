@@ -47,11 +47,13 @@ export const updateCart = (userid, data) =>
     });
 
 // Clear cart after Payment is made
-export const clearCart = (userid) =>
-    axios.post(api+`/clearcart/${userid}`,req_header)
+export const clearCart = (userid) => {
+    var data = {}
+    axios.post(api+`/clearcart/${userid}`,data, req_header)
         .then(response => {
             return response;
         }).catch(error => {
         return error;
     });
+}
 
